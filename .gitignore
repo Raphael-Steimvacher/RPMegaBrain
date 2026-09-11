@@ -1,0 +1,83 @@
+# ==========================================
+# Sistema operacional
+# ==========================================
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Arquivos temporários
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+~$*
+
+# ==========================================
+# Obsidian
+# ==========================================
+
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache/
+.obsidian/plugins/*/node_modules/
+.trash/
+
+# ==========================================
+# Variáveis de ambiente e informações secretas
+# ==========================================
+
+.env
+.env.*
+!.env.example
+
+*.pem
+*.key
+*.p12
+*.pfx
+
+secrets/
+credentials/
+credentials.json
+
+# ==========================================
+# Logs e rastreamento de execução
+# ==========================================
+
+*.log
+logs/
+
+# Descomente se não quiser versionar traces:
+# traces/
+# *.trace
+
+# ==========================================
+# Node.js
+# ==========================================
+
+node_modules/
+dist/
+build/
+coverage/
+.cache/
+.next/
+out/
+
+# ==========================================
+# Python
+# ==========================================
+
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+# ==========================================
+# Editores e IDEs
+# ==========================================
+
+.vscode/
+.idea/
