@@ -1,8 +1,8 @@
 # RPMegaBrain
 
-Harness pessoal local ao redor do Codex, orientado pelo blueprint v0.2.
+Harness pessoal local ao redor do Codex, orientado pelo blueprint v0.3.
 
-**Versão atual: `0.2.0-alpha.1`.** A v0.2-alpha implementa o núcleo determinístico de continuidade, memória governada e recuperação seletiva. A integração real com o SDK/CLI do Codex ainda não faz parte desta entrega; o ciclo WAC v0.1 continua disponível com o motor simulado.
+**Versão atual: `0.3.0-alpha.1`.** A v0.3-alpha adiciona o Permission Gateway e o runtime offline de integrações sobre o núcleo v0.2. Providers reais continuam desligados: esta entrega valida contratos, policy, consentimento, proveniência e falhas com adapters falsos determinísticos, sem alegar acesso real a contas ou enforcement do host Codex.
 
 ## Validar
 
@@ -14,7 +14,24 @@ npm run check
 npm run demo
 ```
 
-`npm run check` compila TypeScript estrito, executa 56 testes, valida schemas/fixtures/skill e confere o lock de componentes. Todos os dados de estado são gravados fora do Git em `--state-dir`, `MEGABRAIN_STATE_HOME` ou no diretório de estado do sistema.
+`npm run check` compila TypeScript estrito, executa 72 testes, valida schemas, fixtures, catálogos e skill, e confere os dois locks. Todos os dados de estado são gravados fora do Git em `--state-dir`, `MEGABRAIN_STATE_HOME` ou no diretório de estado do sistema.
+
+## Integrações v0.3
+
+O runtime usa capabilities estáveis e nega integrações por padrão. Bindings de connector não guardam tokens; catálogo, identidade, scopes, perfil, recurso, workflow, finalidade, sensibilidade, consentimento, paginação e egress são verificados antes do adapter.
+
+```sh
+npm start -- connector add fake --profile personal --file connector.yaml
+npm start -- connector review-drift personal.fake.github --profile personal --provider-fixture evals/fixtures/providers/github.json
+npm start -- connector verify personal.fake.github --profile personal --provider-fixture evals/fixtures/providers/github.json
+npm start -- connector mode --profile personal --value shadow
+npm start -- policy check --profile personal --request evals/fixtures/v3-capability-request.json
+npm start -- integration call --profile personal --request request.json --provider-fixture provider.json
+npm start -- external-ref inspect EXT_ID --profile personal
+npm start -- consent list --profile personal
+```
+
+`shadow` decide e explica sem chamar provider. `enabled` precisa ser selecionado explicitamente. O fake provider nunca usa rede ou segredo. O fluxo de draft externo exige `mail draft external`, `mail draft approve` e `mail draft create`; o hash cobre conta, destinatários, assunto, corpo, fontes e a lista vazia de anexos. Não existe comando `mail send`.
 
 ## Continuidade v0.2
 
@@ -80,10 +97,13 @@ O `resume` v0.2 é selecionado somente quando recebe `--profile`; manifests e ch
 
 ## Limites atuais
 
+- GitHub, GitLab, Jira, Gmail e Google Drive possuem contratos e fixtures offline, não adapters autenticados de produção. `connector login` deliberadamente não simula OAuth.
+- A integração FULL externa retorna envelopes `untrusted_content` e external refs; ela ainda não é injetada automaticamente no context bundle v0.2 nem iniciada pelo router/modelo.
+- O catálogo v0.3 contém os 37 casos normativos; 15 testes agrupados exercitam o gateway e os cenários críticos. Validação operacional contra providers reais permanece pendente.
 - O adapter de thread v0.2 padrão registra indisponibilidade e usa checkpoint; ainda não chama Codex real.
 - A configuração TOML em `core/templates/managed-codex-memory.toml` precisa ser aplicada pelo futuro wrapper do processo Codex. O manifest já exige os valores desativados, mas isso não prova a configuração de um processo externo.
 - Policies YAML são contratos versionados e não constituem sandbox por si só.
 - Busca FULL prefere `rg` e usa fallback filesystem determinístico; não há embeddings ou banco vetorial.
 - Fixtures são sintéticas. Caminhos pessoais/corporativos reais ficam fora deste Git.
 
-Veja `docs/implementation-status.md`, os runbooks em `docs/runbooks/` e as decisões ADR-020 a ADR-031.
+Veja `docs/implementation-status.md`, o threat model e os runbooks em `docs/runbooks/`, e as decisões ADR-032 a ADR-047.

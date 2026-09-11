@@ -1,0 +1,11 @@
+schema_version: 1
+default: deny
+integration_mode: disabled
+unknown_capability: deny
+unknown_tool: deny
+catalog_drift: quarantine
+identity_mismatch: quarantine
+account_fallback: forbidden
+private_source_web_fallback: forbidden
+implement_flag_grants_external_permission: false
+work_profile_requires_organizational_authorization: true

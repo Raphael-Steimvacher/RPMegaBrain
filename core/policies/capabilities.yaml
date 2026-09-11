@@ -1,0 +1,11 @@
+schema_version: 1
+read_only_default: true
+effect_classes:
+  R0: standing_read
+  R1: standing_read
+  R2: prompt_each_run
+  W1: prompt_each_call
+  W2: denied
+  W3: denied
+only_reversible_writes: [mail.draft.create, mail.draft.update]
+structural_denies: [mail.send, mail.delete, scm.push, scm.merge, scm.comment.create, issue_tracker.issue.update, issue_tracker.transition, drive.file.edit, drive.file.share, drive.file.delete]

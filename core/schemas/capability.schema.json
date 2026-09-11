@@ -1,0 +1,5 @@
+{
+  "$schema":"http://json-schema.org/draft-07/schema#","$id":"v3-capability","type":"object","additionalProperties":false,
+  "properties":{"schema_version":{"const":1},"capability":{"type":"string","pattern":"^[a-z][a-z0-9_.]+$"},"effect_class":{"enum":["R0","R1","R2","W1","W2","W3"]},"side_effect":{"enum":["none","reversible_write"]},"consent_floor":{"enum":["denied","standing_read","prompt_each_task","prompt_each_run","prompt_each_call"]},"max_items":{"type":"integer","minimum":1,"maximum":100},"max_pages":{"type":"integer","minimum":1,"maximum":10},"page_size":{"type":"integer","minimum":1,"maximum":100},"output_token_limit":{"type":"integer","minimum":1,"maximum":20000},"external_content":{"const":"untrusted"}},
+  "required":["schema_version","capability","effect_class","side_effect","consent_floor","max_items","max_pages","page_size","output_token_limit","external_content"]
+}

@@ -304,6 +304,15 @@
         ]
       }
     },
+    "external_refs": {
+      "type": "array",
+      "items": {"type":"object","additionalProperties":false,"properties":{"external_ref_id":{"type":"string","pattern":"^ext_[A-Za-z0-9-]+$"},"connector_id":{"type":"string","minLength":1},"revision":{"type":"string","minLength":1},"fetched_at":{"type":"string","format":"date-time"}},"required":["external_ref_id","connector_id","revision","fetched_at"]}
+    },
+    "connector_snapshot_id": {"type":["string","null"],"pattern":"^connsnap_[A-Za-z0-9-]+$"},
+    "consent_receipt_ids": {"type":"array","uniqueItems":true,"items":{"type":"string","pattern":"^consent_[A-Za-z0-9-]+$"}},
+    "source_freshness": {"type":"array","items":{"type":"object","additionalProperties":false,"properties":{"external_ref_id":{"type":"string","pattern":"^ext_[A-Za-z0-9-]+$"},"status":{"enum":["current","changed","stale","offline"]},"checked_at":{"type":"string","format":"date-time"}},"required":["external_ref_id","status","checked_at"]}},
+    "unresolved_auth": {"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1,"maxLength":120}},
+    "cross_connector_routes": {"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1,"maxLength":300}},
     "engine": {
       "type": "object",
       "additionalProperties": false,

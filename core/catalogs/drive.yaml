@@ -1,0 +1,6 @@
+schema_version: 1
+port: CloudDrivePort
+providers: [google-drive]
+capabilities: [drive.file.search, drive.file.metadata.read, drive.file.content.read]
+writes: []
+binary_download: false

@@ -1,0 +1,10 @@
+schema_version: 1
+defaults:
+  current_context: allow_with_policy
+  hot_reference: allow
+  warm: human_review
+  local_file: prompt
+  cross_connector: deny
+  gmail_draft: payload_approval
+  send_share_comment: deny
+external_content_may_initiate_egress: false

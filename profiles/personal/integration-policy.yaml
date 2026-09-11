@@ -1,0 +1,6 @@
+schema_version: 1
+profile_id: personal
+inherits: core/policies/integrations.yaml
+integration_mode: disabled
+cross_connector_routes: []
+external_draft: disabled

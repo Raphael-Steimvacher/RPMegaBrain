@@ -1,0 +1,5 @@
+schema_version: 1
+port: SourceControlPort
+providers: [github, gitlab]
+capabilities: [scm.repository.list, scm.repository.read, scm.code.search, scm.issue.read, scm.pull_request.read, scm.pipeline.read]
+writes: []

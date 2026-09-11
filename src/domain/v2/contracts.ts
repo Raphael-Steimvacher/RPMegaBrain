@@ -50,6 +50,12 @@ export interface CheckpointV2 {
   context_refs: { item_id: string; revision: string; source_hash: string }[];
   memory_snapshot_id: string | null;
   source_snapshots: SourceSnapshot[];
+  external_refs?: { external_ref_id: string; connector_id: string; revision: string; fetched_at: string }[];
+  connector_snapshot_id?: string | null;
+  consent_receipt_ids?: string[];
+  source_freshness?: { external_ref_id: string; status: 'current' | 'changed' | 'stale' | 'offline'; checked_at: string }[];
+  unresolved_auth?: string[];
+  cross_connector_routes?: string[];
   engine: { provider: string; thread_id: string | null; resume_optional: true };
   harness: { version: string; commit: string | null; policies_hash: string; skills_hash: string };
   created_at: string;
@@ -76,6 +82,12 @@ export interface RestoreCapsule {
   blockers: string[];
   next_action: string;
   context_refs: CheckpointV2['context_refs'];
+  external_refs?: NonNullable<CheckpointV2['external_refs']>;
+  connector_snapshot_id?: string | null;
+  consent_receipt_ids?: string[];
+  source_freshness?: NonNullable<CheckpointV2['source_freshness']>;
+  unresolved_auth?: string[];
+  cross_connector_routes?: string[];
 }
 export interface DriftFinding { level: DriftLevel; target: string; expected: string; actual: string; }
 

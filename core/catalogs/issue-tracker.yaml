@@ -1,0 +1,5 @@
+schema_version: 1
+port: IssueTrackerPort
+providers: [jira]
+capabilities: [issue_tracker.issue.search, issue_tracker.issue.read, issue_tracker.project.read]
+writes: []

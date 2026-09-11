@@ -1,0 +1,116 @@
+schema_version: 1
+integration_schema_version: 1
+policy_hash: sha256:50896194c0fdb2b56c3cf8fc1a5e3553b322e3207726575adfdcd9e909293e29
+connector_types:
+  - github
+  - gitlab
+  - jira
+  - gmail
+  - google-drive
+  - fake
+provider_versions:
+  fake: fixture-1
+  live: null
+capability_mappings:
+  - capability: drive.file.content.read
+    effect_class: R2
+  - capability: drive.file.metadata.read
+    effect_class: R0
+  - capability: drive.file.search
+    effect_class: R2
+  - capability: issue_tracker.issue.read
+    effect_class: R1
+  - capability: issue_tracker.issue.search
+    effect_class: R1
+  - capability: issue_tracker.project.read
+    effect_class: R1
+  - capability: mail.draft.create
+    effect_class: W1
+  - capability: mail.draft.update
+    effect_class: W1
+  - capability: mail.message.read
+    effect_class: R2
+  - capability: mail.thread.read
+    effect_class: R2
+  - capability: mail.thread.search
+    effect_class: R2
+  - capability: scm.code.search
+    effect_class: R1
+  - capability: scm.issue.read
+    effect_class: R1
+  - capability: scm.pipeline.read
+    effect_class: R1
+  - capability: scm.pull_request.read
+    effect_class: R1
+  - capability: scm.repository.list
+    effect_class: R0
+  - capability: scm.repository.read
+    effect_class: R0
+reviewed_tools:
+  - fixture: github
+    schema_version: 1
+    connector_type: fake_github
+    provider_version: fixture-1
+    tool_name: get_issue
+    tool_schema_hash: sha256:2222222222222222222222222222222222222222222222222222222222222222
+    mapped_capability: scm.issue.read
+    effect_class: R1
+    review_status: approved
+    host_approval_mode: never
+    enabled: true
+  - fixture: gitlab
+    schema_version: 1
+    connector_type: fake_gitlab
+    provider_version: fixture-1
+    tool_name: get_merge_request
+    tool_schema_hash: sha256:5555555555555555555555555555555555555555555555555555555555555555
+    mapped_capability: scm.pull_request.read
+    effect_class: R1
+    review_status: approved
+    host_approval_mode: never
+    enabled: true
+  - fixture: gmail
+    schema_version: 1
+    connector_type: fake_gmail
+    provider_version: fixture-1
+    tool_name: read_thread
+    tool_schema_hash: sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    mapped_capability: mail.thread.read
+    effect_class: R2
+    review_status: approved
+    host_approval_mode: prompt
+    enabled: true
+  - fixture: gmail
+    schema_version: 1
+    connector_type: fake_gmail
+    provider_version: fixture-1
+    tool_name: create_draft
+    tool_schema_hash: sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+    mapped_capability: mail.draft.create
+    effect_class: W1
+    review_status: approved
+    host_approval_mode: prompt
+    enabled: true
+  - fixture: google-drive
+    schema_version: 1
+    connector_type: fake_drive
+    provider_version: fixture-1
+    tool_name: read_document
+    tool_schema_hash: sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+    mapped_capability: drive.file.content.read
+    effect_class: R2
+    review_status: approved
+    host_approval_mode: prompt
+    enabled: true
+  - fixture: jira
+    schema_version: 1
+    connector_type: fake_jira
+    provider_version: fixture-1
+    tool_name: get_issue
+    tool_schema_hash: sha256:8888888888888888888888888888888888888888888888888888888888888888
+    mapped_capability: issue_tracker.issue.read
+    effect_class: R1
+    review_status: approved
+    host_approval_mode: never
+    enabled: true
+review_timestamp: 2026-09-11T00:00:00.000Z

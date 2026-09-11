@@ -1,6 +1,6 @@
 import { existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, renameSync, rmdirSync, writeFileSync, rmSync } from 'node:fs';
 import { dirname, isAbsolute, join, relative, resolve } from 'node:path';
-import { homedir } from 'node:os';
+import { homedir, tmpdir } from 'node:os';
 import { randomUUID } from 'node:crypto';
 import { stringify } from 'yaml';
 import type { Checkpoint } from '../domain/contracts.js';
@@ -47,7 +47,12 @@ export class RunStore {
     if (within(coreRoot, this.root)) throw new DomainError('STATE_IN_REPOSITORY', 'Escolha um diretório de estado fora do núcleo.');
     let candidate = this.root;
     while (true) {
-      if (existsSync(join(candidate, '.git'))) throw new DomainError('STATE_IN_REPOSITORY', 'Estado deve ficar fora de repositórios Git.');
+      const gitMarker = join(candidate, '.git');
+      // Some constrained runners mount an empty, read-only /tmp/.git sentinel. It is
+      // not a Git repository; nested markers and real worktrees remain forbidden.
+      const ignoredRunnerSentinel = candidate === resolve(tmpdir()) && existsSync(gitMarker) && lstatSync(gitMarker).isDirectory() && !existsSync(join(gitMarker, 'HEAD')) && !existsSync(join(gitMarker, 'config'));
+      const isRepository = existsSync(gitMarker) && !ignoredRunnerSentinel;
+      if (isRepository) throw new DomainError('STATE_IN_REPOSITORY', 'Estado deve ficar fora de repositórios Git.');
       const parent = dirname(candidate);
       if (parent === candidate) break;
       candidate = parent;

@@ -1,0 +1,28 @@
+schema_version: 1
+profile_id: personal
+integration_mode: disabled
+connectors:
+  - schema_version: 1
+    connector_id: personal.github.primary
+    provider: github
+    transport: fake
+    profile_id: personal
+    account_alias: github-personal
+    account_subject_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+    tenant_or_org_id_hash: null
+    endpoint: https://api.github.example.invalid
+    expected_scopes: [repository_metadata_read, contents_read, issues_read, pull_requests_read]
+    granted_scopes: []
+    resource_allowlist: { repositories: [example-owner/example-repository] }
+    capability_allowlist: [scm.repository.read, scm.code.search, scm.issue.read, scm.pull_request.read]
+    allowed_workflows: [planning, investigation]
+    consent_mode: standing_read
+    max_sensitivity: personal
+    persistence_mode: reference_only
+    state: configured
+    catalog_hash: sha256:0000000000000000000000000000000000000000000000000000000000000000
+    secret_ref: host-managed:github
+    draft_enabled: false
+    identity_verified: false
+    verified_at: null
+    created_at: 2026-09-11T00:00:00Z

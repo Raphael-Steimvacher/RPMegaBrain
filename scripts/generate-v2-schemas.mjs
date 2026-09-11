@@ -24,9 +24,13 @@ const checkpoint = obj({
   active_files: arr(obj({ path: str(2000), content_hash: digest }), { maxItems: 200 }), verifications: arr(str(5000), { maxItems: 100 }), blockers: arr(str(5000), { maxItems: 100 }), next_action: str(5000),
   context_refs: arr(obj({ item_id: id, revision: str(200), source_hash: digest })), memory_snapshot_id: nullable({ type: 'string', pattern: '^memsnap_[a-f0-9]+$' }),
   source_snapshots: arr(obj({ source_id: id, revision: str(500), selected_hashes: arr(digest), captured_at: date })),
+  external_refs: arr(obj({ external_ref_id: { type: 'string', pattern: '^ext_[A-Za-z0-9-]+$' }, connector_id: str(120), revision: str(500), fetched_at: date })),
+  connector_snapshot_id: nullable({ type: 'string', pattern: '^connsnap_[A-Za-z0-9-]+$' }), consent_receipt_ids: arr({ type: 'string', pattern: '^consent_[A-Za-z0-9-]+$' }, { uniqueItems: true }),
+  source_freshness: arr(obj({ external_ref_id: { type: 'string', pattern: '^ext_[A-Za-z0-9-]+$' }, status: en(['current','changed','stale','offline']), checked_at: date })),
+  unresolved_auth: arr(str(120), { uniqueItems: true }), cross_connector_routes: arr(str(300), { uniqueItems: true }),
   engine: obj({ provider: str(100), thread_id: nullable(str(500)), resume_optional: { const: true } }),
   harness: obj({ version: str(100), commit: nullable(str(100)), policies_hash: digest, skills_hash: digest }), created_at: date, integrity_hash: digest,
-});
+}, ['external_refs','connector_snapshot_id','consent_receipt_ids','source_freshness','unresolved_auth','cross_connector_routes']);
 const candidate = obj({ schema_version: { const: 1 }, candidate_id: { type: 'string', pattern: '^cand_[A-Za-z0-9-]+$' }, profile_id: id, task_id: id, scope_id: str(500), kind: memoryKind, subject: str(500), statement: str(5000), limits: str(5000), confidence, sensitivity,
   evidence_refs: arr(str(2000), { minItems: 1, uniqueItems: true }), source_run_ids: arr(id, { minItems: 1, uniqueItems: true }), suggested_validity: obj({ type: validity, valid_until: nullable(date) }), duplicate_candidates: arr(id, { uniqueItems: true }), conflict_candidates: arr(id, { uniqueItems: true }), status: en(['pending','rejected','deferred','approved']), created_at: date, statement_hash: digest,
   decision: obj({ decided_at: date, decision: en(['approved','edited_and_approved','rejected','deferred']), reason: nullable(str(2000)) }) }, ['decision']);

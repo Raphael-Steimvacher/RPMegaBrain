@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#", "$id": "v3-connector-binding", "type": "object", "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1}, "connector_id": {"type":"string","pattern":"^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"},
+    "provider": {"enum":["github","gitlab","jira","gmail","google-drive","fake"]}, "transport": {"enum":["plugin_mcp","remote_mcp","direct_api","fake"]},
+    "profile_id": {"type":"string","pattern":"^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"}, "account_alias": {"type":"string","minLength":1,"maxLength":120},
+    "account_subject_hash": {"type":"string","pattern":"^sha256:[a-f0-9]{64}$"}, "tenant_or_org_id_hash": {"type":["string","null"],"pattern":"^sha256:[a-f0-9]{64}$"},
+    "endpoint": {"type":"string","minLength":1,"maxLength":500}, "expected_scopes": {"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1,"maxLength":120}},
+    "granted_scopes": {"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1,"maxLength":120}}, "resource_allowlist": {"type":"object","additionalProperties":{"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1,"maxLength":500}}},
+    "capability_allowlist": {"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1,"maxLength":120}}, "allowed_workflows": {"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1,"maxLength":120}},
+    "consent_mode": {"enum":["denied","standing_read","prompt_each_task","prompt_each_run","prompt_each_call"]}, "max_sensitivity": {"enum":["public","personal","confidential"]},
+    "persistence_mode": {"enum":["reference_only","redacted_summary","ephemeral_content"]}, "state": {"enum":["configured","auth_required","healthy","degraded","quarantined","revoked"]},
+    "catalog_hash": {"type":"string","pattern":"^sha256:[a-f0-9]{64}$"}, "secret_ref": {"type":"string","pattern":"^(host-managed|keyring|env):[A-Za-z0-9._-]+$"},
+    "draft_enabled": {"type":"boolean"}, "identity_verified": {"type":"boolean"}, "verified_at": {"type":["string","null"],"format":"date-time"}, "created_at": {"type":"string","format":"date-time"}
+  },
+  "required": ["schema_version","connector_id","provider","transport","profile_id","account_alias","account_subject_hash","tenant_or_org_id_hash","endpoint","expected_scopes","granted_scopes","resource_allowlist","capability_allowlist","allowed_workflows","consent_mode","max_sensitivity","persistence_mode","state","catalog_hash","secret_ref","draft_enabled","identity_verified","verified_at","created_at"]
+}

@@ -1,0 +1,5 @@
+{
+  "identity":{"account_subject_hash":"sha256:3333333333333333333333333333333333333333333333333333333333333333","tenant_or_org_id_hash":"sha256:4444444444444444444444444444444444444444444444444444444444444444","granted_scopes":["read_api","read_repository"]},
+  "tools":[{"schema_version":1,"connector_type":"fake_gitlab","provider_version":"fixture-1","tool_name":"get_merge_request","tool_schema_hash":"sha256:5555555555555555555555555555555555555555555555555555555555555555","mapped_capability":"scm.pull_request.read","effect_class":"R1","review_status":"approved","host_approval_mode":"never","enabled":true}],
+  "objects":{"scm.pull_request.read":[{"object_type":"merge_request","object_id":"MR-1","title":"MR sintético","canonical_uri":"https://gitlab.example.invalid/group/project/-/merge_requests/1","revision":"r1","source_updated_at":"2026-09-11T10:00:00Z","fields":{"title":"MR sintético","state":"opened","checks":"passed"},"content":"Alteração sintética.","sensitivity":"confidential","attachments":[]}]}
+}

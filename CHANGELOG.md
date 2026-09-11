@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.0-alpha.1 — 2026-09-11
+
+- Connector Registry por perfil, lifecycle, identidade/tenant/scopes e secret refs opacos.
+- Capability Catalog e Tool Catalog hashado com default deny e quarentena por drift.
+- Policy Gateway com resource/workflow/purpose/sensitivity/consent/pagination/egress e decisões explicáveis.
+- Consent receipts, external refs reference-only, Output Guard e manifest v3 metadata-only.
+- Fake provider determinístico para os ports externos, falhas normalizadas e ausência de fallback.
+- Draft local/externo com opt-in, aprovação por hash e idempotência; send e anexos permanecem estruturalmente ausentes.
+- 10 schemas, policies, catálogos, ADR-032 a ADR-047, threat model, runbooks e catálogo dos 37 casos v0.3.
+- Compatibilidade preservada: 31 testes v0.1, 26 v0.2/continuidade e 15 v0.3 passam.
+
+Esta alpha não autentica providers reais, não aplica configuração MCP/Codex e não prova scopes ou sandbox externos.
+
 ## 0.2.0-alpha.1 — 2026-09-11
 
 - Checkpoints v0.2 imutáveis e verificáveis, restore capsule, fallback de thread e detecção de drift.

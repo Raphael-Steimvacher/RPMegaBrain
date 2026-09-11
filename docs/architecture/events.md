@@ -25,4 +25,17 @@ Eventos v0.1 preservam o contrato original por run. O subsistema v0.2 grava JSON
 
 O `run-manifest-v2.yaml` registra `native_codex_memory.policy_reason: megabrain_managed_memory`. O futuro wrapper deve emitir `native_memory.policy_applied` somente depois de aplicar e verificar as opções no processo Codex real.
 
+## Integrações v0.3
+
+Eventos v0.3 usam arquivo separado, `schema_version: 3`, e a mesma regra metadata-only:
+
+- connector: `configured`, `authentication_required`, `identity_verified`, `identity_mismatch`, `quarantined`, `revoked`;
+- catálogo: `tool_catalog.locked`, `tool_catalog.drift_detected`, `tool_catalog.reviewed`;
+- policy/consent: `integration.policy_decided`, `consent.granted`, `consent.revoked`;
+- chamadas: `connector.call_started`, `connector.call_retried`, `connector.call_completed`;
+- proveniência: `external_ref.created`, `external_ref.revalidated`, `external_ref.changed`;
+- draft: `draft.intent_created`, `draft.created`.
+
+Attributes aceitos incluem IDs, hashes, capability, decision/reason, contagens, bytes, páginas, retries e latência. Request completo, query, conteúdo, destinatário, corpo, erro bruto e credencial são descartados.
+
 Hashes, revisões, reason codes, contagens e posições de ranking permitem explicar a seleção sem persistir o conteúdo. O context bundle guarda o trecho selecionado no estado privado porque ele é necessário para reprodução e inspeção; não é duplicado no trace.

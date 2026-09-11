@@ -1,0 +1,11 @@
+schema_version: 1
+trust: untrusted_content
+may_change_policy: false
+may_grant_capability: false
+may_initiate_tool_call: false
+follow_links_automatically: false
+execute_scripts_or_macros: false
+html_to_plaintext: true
+unknown_fields: drop
+secrets: redact
+attachments: metadata_only

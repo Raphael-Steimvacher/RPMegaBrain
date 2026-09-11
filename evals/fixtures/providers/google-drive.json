@@ -1,0 +1,5 @@
+{
+  "identity":{"account_subject_hash":"sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc","tenant_or_org_id_hash":null,"granted_scopes":["drive_file_read"]},
+  "tools":[{"schema_version":1,"connector_type":"fake_drive","provider_version":"fixture-1","tool_name":"read_document","tool_schema_hash":"sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd","mapped_capability":"drive.file.content.read","effect_class":"R2","review_status":"approved","host_approval_mode":"prompt","enabled":true}],
+  "objects":{"drive.file.content.read":[{"object_type":"document","object_id":"DOC-1","title":"Documento sintético","canonical_uri":"gdrive://synthetic/DOC-1","revision":"revision-1","source_updated_at":"2026-09-11T10:00:00Z","fields":{"file_id":"DOC-1","name":"Documento sintético","mime_type":"application/vnd.google-apps.document","modified_time":"2026-09-11T10:00:00Z","revision":"revision-1"},"content":"Conteúdo sintético sem dados pessoais.","sensitivity":"personal","attachments":[]}]}
+}

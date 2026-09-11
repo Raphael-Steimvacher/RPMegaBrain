@@ -1,0 +1,5 @@
+{
+  "$schema":"http://json-schema.org/draft-07/schema#","$id":"v3-connector-registry","type":"object","additionalProperties":false,
+  "properties":{"schema_version":{"const":1},"profile_id":{"type":"string","pattern":"^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"},"integration_mode":{"enum":["disabled","shadow","enabled"]},"connectors":{"type":"array","items":{"$ref":"v3-connector-binding"}}},
+  "required":["schema_version","profile_id","integration_mode","connectors"]
+}

@@ -1,0 +1,7 @@
+schema_version: 1
+profile_id: work.colmeia
+inherits: core/policies/integrations.yaml
+integration_mode: disabled
+organizational_authorization_required: true
+cross_connector_routes: []
+external_draft: disabled

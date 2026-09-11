@@ -29,6 +29,12 @@ export function buildRestoreCapsule(checkpoint: CheckpointV2): RestoreCapsule {
     open_hypotheses: checkpoint.open_hypotheses, approved_decisions: checkpoint.approved_decisions,
     plan: checkpoint.plan, active_files: checkpoint.active_files, verifications: checkpoint.verifications,
     blockers: checkpoint.blockers, next_action: checkpoint.next_action, context_refs: checkpoint.context_refs,
+    ...(checkpoint.external_refs ? { external_refs: checkpoint.external_refs } : {}),
+    ...(checkpoint.connector_snapshot_id !== undefined ? { connector_snapshot_id: checkpoint.connector_snapshot_id } : {}),
+    ...(checkpoint.consent_receipt_ids ? { consent_receipt_ids: checkpoint.consent_receipt_ids } : {}),
+    ...(checkpoint.source_freshness ? { source_freshness: checkpoint.source_freshness } : {}),
+    ...(checkpoint.unresolved_auth ? { unresolved_auth: checkpoint.unresolved_auth } : {}),
+    ...(checkpoint.cross_connector_routes ? { cross_connector_routes: checkpoint.cross_connector_routes } : {}),
   };
 }
 export function detectDrift(checkpoint: CheckpointV2, options: ResumeOptions): DriftFinding[] {

@@ -6,9 +6,17 @@ import { DomainError, resolveMode } from '../domain/policy.js';
 import { RunStore } from '../infrastructure/run-store.js';
 import { parseFile } from '../infrastructure/validation.js';
 import { handleV2 } from './v2.js';
+import { handleV3 } from './v3.js';
 
-const help = `MegaBrain 0.1.0-alpha.1 — somente simulação local, sem IA\n
+const help = `MegaBrain 0.3.0-alpha.1 — núcleo local; integrações reais não configuradas\n
 Uso após npm run build:
+  npm start -- connector list --profile personal
+  npm start -- connector add fake --profile personal --file connector.yaml
+  npm start -- connector verify CONNECTOR --profile personal --provider-fixture provider.json
+  npm start -- policy check --profile personal --request integration-request.yaml
+  npm start -- integration call --profile personal --request integration-request.yaml --provider-fixture provider.json
+  npm start -- consent grant --profile personal --request integration-request.yaml --bind-to run --expires-at ISO --interaction USER_ACTION
+  npm start -- mail draft local --profile personal --payload payload.json --task TASK --run RUN
   npm start -- wac <task-id> --profile synthetic --task-file <fixture.json>
   npm start -- status <run-id>
   npm start -- approve <run-id> definition --hash <hash-exibido>
@@ -36,6 +44,7 @@ function display(cp: Checkpoint, json: boolean): void {
   console.log(`\n${cp.artifacts.result}`);
 }
 async function main(): Promise<void> {
+  if (await handleV3(process.argv.slice(2))) return;
   if (await handleV2(process.argv.slice(2))) return;
   const { values, positionals } = parseArgs({ allowPositionals: true, strict: true,
     options: { profile: { type: 'string' }, 'task-file': { type: 'string' }, mode: { type: 'string' },

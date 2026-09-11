@@ -15,6 +15,17 @@
 | Exclusão material | Remove item, revisões, candidatos relacionados e índice; mantém tombstone sem conteúdo | Backups externos não são administrados nesta alpha |
 | Memória Codex desligada | Schema/manifest exigem todos os flags falsos | Aplicação ao processo externo depende do futuro wrapper |
 | Sem regressão v0.1 | Os 31 testes originais continuam na suíte | Migração automática de estado não foi adicionada |
+| Connector pertence a um perfil | Registry e paths físicos validam `profile_id` | ACL contra atacante local continua externa |
+| Conta, tenant e scopes conferem | Fingerprints e conjunto exato são verificados antes de `healthy` | Provider real ainda não conectado |
+| Capability/tool desconhecida não executa | Catálogo estável, allowlist e default deny | Metadata real de MCP ainda não auditada |
+| Drift de catálogo bloqueia | Hash divergente muda connector para `quarantined` | Revisão humana local não é assinatura |
+| External result possui proveniência | Output Guard cria external ref antes da persistência | Link/revision dependem do adapter |
+| Conteúdo externo não vira WARM | Store de refs guarda metadata/hash separado | Promoção manual continua sob regras v0.2 |
+| Credencial não entra no estado/trace | Binding aceita somente `secret_ref` opaco e eventos usam allowlist | OAuth/keyring do host é trabalho futuro |
+| Sem fallback externo | Adapter ausente/auth falha fecha a chamada | Disponibilidade pode exigir intervenção humana |
+| Escritas proibidas são ausentes | Sem ports/comandos para send, merge, push, transition ou share | Deve ser reconfirmado em transports reais |
+| Draft exige payload exato | Receipt W1 por chamada, hash e idempotency key | Fake provider não prova separação Gmail draft/send |
+| Anexos são bloqueados | Draft exige tuple vazia; reads só indicam metadata | Parsers reais ainda não implementados |
 
 O estado mutável fica fora do núcleo Git e não aceita raiz dentro de outro repositório. Locks evitam dois escritores cooperativos; publicação por rename impede revisão parcial visível. Não há garantia de fsync contra queda de energia nem proteção contra um usuário local com acesso ao mesmo diretório.
 

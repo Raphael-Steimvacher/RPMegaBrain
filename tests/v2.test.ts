@@ -8,7 +8,7 @@ import { FilesystemCheckpointStore } from '../src/adapters/filesystem/checkpoint
 import { FilesystemWarmMemoryStore } from '../src/adapters/filesystem/warm-memory-store.js';
 import { FilesystemSourceRegistry } from '../src/adapters/filesystem/source-registry.js';
 import { RunManifestV2Store } from '../src/adapters/filesystem/run-manifest-v2-store.js';
-import { ContinuityManager, type ResumeOptions } from '../src/application/continuity/manager.js';
+import { buildRestoreCapsule, ContinuityManager, type ResumeOptions } from '../src/application/continuity/manager.js';
 import { ContextBundleStore, RetrievalPipeline } from '../src/application/context-building/retrieval.js';
 import type { ThreadPort } from '../src/domain/v2/continuity.js';
 import type { CandidateInput } from '../src/domain/v2/memory-store.js';
@@ -81,6 +81,10 @@ test('retomada funciona sem thread e gera cápsula e checkpoint recovery', async
   const result = await new ContinuityManager(env.checkpoints, env.checkpoints.events).resume('TASK-001');
   assert.equal(result.strategy, 'checkpoint_only'); assert.equal(result.capsule.goal, first.goal); assert.equal(result.checkpoint.type, 'recovery');
   assert.ok(!JSON.stringify(result.capsule).includes('transcript')); assert.equal(env.checkpoints.list('TASK-001').length, 2);
+});
+test('checkpoint compatível guarda external refs e consent metadata, nunca corpo bruto', t => {
+  const env = environment(t); const created = env.checkpoints.create(checkpoint('personal', { external_refs: [{ external_ref_id: 'ext_fixture-1', connector_id: 'personal.fake.github', revision: 'r1', fetched_at: '2026-09-11T10:00:00.000Z' }], connector_snapshot_id: 'connsnap_fixture-1', consent_receipt_ids: ['consent_fixture-1'], source_freshness: [{ external_ref_id: 'ext_fixture-1', status: 'current', checked_at: '2026-09-11T10:00:00.000Z' }], unresolved_auth: [], cross_connector_routes: [] }));
+  const capsule = buildRestoreCapsule(created); assert.equal(capsule.external_refs?.[0]?.revision, 'r1'); assert.equal(capsule.connector_snapshot_id, 'connsnap_fixture-1'); assert.ok(!JSON.stringify(capsule).includes('raw_content'));
 });
 test('retomada usa thread quando disponível e fallback quando falha', async t => {
   const env = environment(t); env.checkpoints.create(checkpoint('personal', { engine: { provider: 'mock', thread_id: 'thread-1', resume_optional: true } }));

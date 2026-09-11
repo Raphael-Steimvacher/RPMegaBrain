@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { closeSync, mkdtempSync, mkdirSync, openSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { randomUUID } from 'node:crypto';
@@ -230,9 +230,16 @@ test('YAML duplicado e arquivo de avaliação incompatível são rejeitados', t 
   assert.throws(() => validate('evaluation', value), isCode('INVALID_DOCUMENT'));
 });
 test('CLI funciona entre processos e rejeita flags irrelevantes', t => {
-  const { store } = environment(t);
+  const { root, store } = environment(t);
   const cli = join(coreRoot, 'dist/src/cli/main.js');
-  const run = (...args: string[]) => spawnSync(process.execPath, [cli, ...args, '--state-dir', store.root], { cwd: coreRoot, encoding: 'utf8' });
+  let call = 0;
+  const run = (...args: string[]) => {
+    const id = call++; const stdoutPath = join(root, `cli-${id}.stdout`); const stderrPath = join(root, `cli-${id}.stderr`);
+    const stdout = openSync(stdoutPath, 'w'); const stderr = openSync(stderrPath, 'w');
+    const result = spawnSync(process.execPath, [cli, ...args, '--state-dir', store.root], { cwd: coreRoot, stdio: ['ignore', stdout, stderr] });
+    closeSync(stdout); closeSync(stderr);
+    return { ...result, stdout: readFileSync(stdoutPath, 'utf8'), stderr: readFileSync(stderrPath, 'utf8') };
+  };
   const created = run('wac', 'WAC-SYNTH-001', '--profile', 'synthetic', '--task-file', 'evals/fixtures/wac.json', '--json');
   assert.equal(created.status, 0, created.stderr);
   const cp = JSON.parse(created.stdout) as Checkpoint;

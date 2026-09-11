@@ -1,0 +1,6 @@
+schema_version: 1
+port: MailPort
+providers: [gmail]
+capabilities: [mail.thread.search, mail.thread.read, mail.message.read, mail.draft.create, mail.draft.update]
+only_write: [mail.draft.create, mail.draft.update]
+forbidden: [mail.send, mail.delete, mail.archive, mail.label.update]

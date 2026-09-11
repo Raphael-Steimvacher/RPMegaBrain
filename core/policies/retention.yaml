@@ -1,0 +1,9 @@
+schema_version: 1
+default: reference_only
+allowed: [reference_only, redacted_summary, ephemeral_content]
+durable_raw: forbidden
+attachments: forbidden
+cache:
+  profile_separated: true
+  mode: 0600
+  raw_external_default: false

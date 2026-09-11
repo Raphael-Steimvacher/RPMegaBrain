@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "request_id": "ireq_synthetic-001",
+  "run_id": "RUN-SYNTH-001",
+  "task_id": "TASK-SYNTH-001",
+  "profile_id": "personal",
+  "workflow": "planning",
+  "connector_id": "personal.fake.github",
+  "capability": "scm.issue.read",
+  "purpose": "Ler requisitos da issue sintética",
+  "resources": { "repository": "example/repository" },
+  "query": null,
+  "requested_fields": ["title", "body", "state", "updated_at"],
+  "pagination": { "page_size": 1, "max_pages": 1, "max_items": 1 },
+  "sensitivity_ceiling": "personal",
+  "destination": "current_context",
+  "payload_hash": null,
+  "created_at": "2026-09-11T12:00:00Z"
+}
