@@ -1,0 +1,14 @@
+schema_version: 1
+profile_id: work.colmeia
+sources:
+  - source_id: colmeia-repository
+    adapter: git-repository
+    root: C:/ABSOLUTE/PATH/TO/COLMEIA-REPOSITORY
+    trust: authoritative
+    sensitivity: confidential
+    read_only: true
+    include: ["README.md", "docs/**", "**/*.ts"]
+    exclude: ["**/.git/**", "**/.env*", "**/node_modules/**", "**/dist/**"]
+    allowed_workflows: [planning, debugging, review]
+    freshness: { strategy: git-commit }
+    max_item_bytes: 50000

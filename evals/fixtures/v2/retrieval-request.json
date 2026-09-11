@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "retrieval_id": "RET-001",
+  "run_id": "RUN-001",
+  "task_id": "TASK-001",
+  "profile_id": "personal",
+  "workflow": "planning",
+  "goal": "Planejar a atualização do runtime sintético.",
+  "explicit_terms": ["Node", "runtime"],
+  "explicit_refs": [],
+  "active_repository": "fixture",
+  "active_files": ["package.json"],
+  "allowed_kinds": ["decision", "verified_fact"],
+  "allowed_sources": ["personal-fixture"],
+  "max_sensitivity": "personal",
+  "reference_time": "2026-09-11T10:00:00.000Z",
+  "budget_tokens": 1000,
+  "max_warm": 5,
+  "max_full": 8,
+  "max_per_source": 2,
+  "memory_mode": "full"
+}

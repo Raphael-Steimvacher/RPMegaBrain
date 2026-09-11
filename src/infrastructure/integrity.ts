@@ -12,7 +12,7 @@ export function componentHashes(root: string): Record<string, string> {
       else throw new Error('Componentes do núcleo devem ser arquivos regulares.');
     }
   }
-  for (const directory of ['src', 'schemas', 'policies', 'profiles']) visit(directory);
+  for (const directory of ['src', 'schemas', 'policies', 'profiles', 'core', '.agents', 'evals/cases']) visit(directory);
   return Object.fromEntries(files.sort().map(path => [relative(root, join(root, path)).replaceAll('\\', '/'), hash(readFileSync(join(root, path), 'utf8').replaceAll('\r\n', '\n'))]));
 }
 export function runtimeFingerprint(root: string): string { return hash(stableJson(componentHashes(root))); }

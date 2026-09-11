@@ -1,16 +1,12 @@
 # RPMegaBrain
 
-Harness pessoal ao redor do Codex, construído a partir do blueprint v0.1.
+Harness pessoal local ao redor do Codex, orientado pelo blueprint v0.2.
 
-**Versão atual: `0.1.0-alpha.1`.** Esta entrega implementa os contratos e um ciclo WAC com motor simulado. Você pode iniciar, aprovar artefatos, retomar, revisar o fluxo e registrar avaliação sem chamar IA ou pagar por serviços.
+**Versão atual: `0.2.0-alpha.1`.** A v0.2-alpha implementa o núcleo determinístico de continuidade, memória governada e recuperação seletiva. A integração real com o SDK/CLI do Codex ainda não faz parte desta entrega; o ciclo WAC v0.1 continua disponível com o motor simulado.
 
-O mock não consulta repositórios, não investiga bugs, não altera código e não executa testes do projeto-alvo. As respostas fixas estão marcadas como simulação. O modo `implement` exercita o gate de aprovação, mas não escreve código nesta alpha. A v0.1 completa ainda não está pronta.
+## Validar
 
-## Começar
-
-Requisitos: Node.js 24+ e npm. Windows é o ambiente validado nesta entrega; os caminhos Linux seguem XDG e precisam de validação operacional no Linux. Git é opcional para executar uma cópia; quando disponível, seu commit entra no manifest.
-
-Na raiz do repositório:
+Requisitos: Node.js 24+ e npm. Git melhora snapshots de repositório e `rg` acelera a pesquisa FULL; quando `rg` não existe, o adapter usa um scanner filesystem read-only.
 
 ```sh
 npm ci
@@ -18,98 +14,76 @@ npm run check
 npm run demo
 ```
 
-`demo` executa uma WAC sintética, simula as aprovações humanas exclusivamente para a demonstração, mostra o run ID e o diretório temporário de estado. Não acessa credenciais nem chama o Codex. Esse diretório é mantido para você inspecionar os arquivos.
+`npm run check` compila TypeScript estrito, executa 56 testes, valida schemas/fixtures/skill e confere o lock de componentes. Todos os dados de estado são gravados fora do Git em `--state-dir`, `MEGABRAIN_STATE_HOME` ou no diretório de estado do sistema.
 
-## Executar um checkpoint por vez
+## Continuidade v0.2
+
+Um checkpoint JSON é a autoridade; a thread é opcional. O arquivo de entrada de `run` segue `NewCheckpoint` em `src/domain/v2/contracts.ts`.
+
+```sh
+npm start -- run --profile personal --file checkpoint-input.yaml
+npm start -- checkpoint list TASK-001 --profile personal
+npm start -- checkpoint inspect CHECKPOINT_ID --profile personal
+npm start -- checkpoint verify CHECKPOINT_ID --profile personal
+npm start -- resume TASK-001 --profile personal
+```
+
+`resume` valida integridade e aprovações, detecta drift, tenta retomar a thread e cai para uma restore capsule quando necessário. A recuperação cria outro checkpoint por padrão. `--new-thread`, `--checkpoint ID`, `--accept-drift` e `--no-recovery` controlam esse fluxo. Cada criação/retomada concluída publica `run-manifest-v2.yaml`, incluindo a política de memória nativa do Codex desativada.
+
+## Memória WARM
+
+A unidade canônica é Markdown no estado privado do perfil. SQLite FTS5 é um índice descartável e reconstruível.
+
+```sh
+npm start -- memory propose TASK-001 --profile personal --file candidate.yaml
+npm start -- memory candidates --profile personal
+npm start -- memory review CANDIDATE_ID --profile personal --decision approve --expected-hash sha256:HASH
+npm start -- memory search "Node runtime" --profile personal --request retrieval-request.json
+npm start -- memory history MEMORY_ID --profile personal
+npm start -- memory conflicts --profile personal
+npm start -- memory expire --profile personal
+npm start -- memory revoke MEMORY_ID --profile personal --expected-hash sha256:HASH --reason "motivo"
+npm start -- memory forget MEMORY_ID --profile personal --expected-hash sha256:HASH --reason "exclusão solicitada"
+npm start -- memory rebuild-index --profile personal
+```
+
+Candidatos nunca entram na busca. Aprovação humana exige o hash que foi revisado; `implement` e `--pode-fazer` não concedem aprovação de memória. Duplicatas agregam evidência, conflitos ficam em quarentena e itens expirados/revogados saem do índice ativo. A skill `memory-curator` só pode ser invocada explicitamente e apenas propõe candidatos.
+
+## Fontes FULL e context bundle
+
+Os templates em `core/templates/sources.*.example.yaml` usam placeholders e precisam ser copiados para uma configuração local com raízes absolutas. Fontes são read-only, separadas por perfil e filtradas por workflow, sensibilidade, include/exclude e caminho real.
+
+```sh
+npm start -- source list --profile personal --registry sources.yaml
+npm start -- source doctor SOURCE_ID --profile personal --registry sources.yaml
+npm start -- source search SOURCE_ID "termo" --profile personal --registry sources.yaml --workflow planning
+npm start -- context build --profile personal --request retrieval-request.json --registry sources.yaml
+npm start -- explain-context RUN-001 --profile personal
+npm start -- trace show RUN-001 --profile personal --section retrieval
+```
+
+O pipeline filtra antes de ranquear, limita a 5 itens WARM, 8 FULL e 2 por fonte, e usa no máximo 20% do orçamento informado. Cada item carrega perfil, origem, revisão, hash, fatores de ranking e `data_not_instructions: true`. O modo `shadow` calcula e registra o conjunto sem injetá-lo.
+
+## Compatibilidade v0.1
+
+Os comandos WAC anteriores continuam legíveis e cobertos pelos 31 testes originais:
 
 ```sh
 npm start -- wac WAC-SYNTH-001 --profile synthetic --task-file evals/fixtures/wac.json
-```
-
-A saída contém o `run_id`, a definição, seu hash e a próxima ação. Substitua `RUN_ID` e os hashes abaixo pelos valores exibidos:
-
-```sh
-npm start -- approve RUN_ID definition --hash sha256:HASH_DA_DEFINICAO
+npm start -- approve RUN_ID definition --hash sha256:HASH
 npm start -- resume RUN_ID
-npm start -- resume RUN_ID
-```
-
-O primeiro `resume` faz a investigação simulada; o segundo produz o plano. Leia o plano, aprove seu hash e continue:
-
-```sh
-npm start -- approve RUN_ID plan --hash sha256:HASH_DO_PLANO
-npm start -- resume RUN_ID
-npm start -- review RUN_ID
-npm start -- resume RUN_ID
-```
-
-O run agora está `verified`: apenas a integridade da aprovação foi verificada. A revisão e a investigação de código continuam simuladas.
-
-Para exercitar o outro caminho, use `resume RUN_ID --pode-fazer` imediatamente após aprovar o plano. É equivalente a `--mode implement`. Iniciar uma WAC com essa flag falha porque ainda não há plano aprovado. O próximo comando sem flag volta a `teach`; `review` também volta a `teach`.
-
-## Avaliar
-
-Crie um arquivo YAML fora do repositório, preenchendo `run_id` e suas notas de 1 a 5:
-
-```yaml
-schema_version: 1
-run_id: UUID_DO_RUN
-verdict: accepted
-hard_failures: []
-scores:
-  technical_correctness: 4
-  requirement_coverage: 5
-  actionability: 4
-  teaching_clarity: 5
-  efficiency: 3
-corrections: []
-user_notes: "Avaliação da simulação, sem execução real de código."
-```
-
-```sh
-npm start -- eval RUN_ID --file CAMINHO_DA_AVALIACAO.yaml
 npm start -- status RUN_ID
 npm start -- trace RUN_ID
 ```
 
-Veredictos: `accepted`, `accepted_with_corrections`, `rejected`, `blocked`. Uma falha grave exige `rejected` ou `blocked`; a média ponderada não a compensa. As categorias válidas estão em `schemas/evaluation.schema.json`. Uma avaliação pertence exatamente a um run. O schema de propostas de melhoria já existe, mas sua geração pertence aos marcos posteriores.
+O `resume` v0.2 é selecionado somente quando recebe `--profile`; manifests e checkpoints v0.1 não são reescritos automaticamente.
 
-## Onde os dados ficam
+## Limites atuais
 
-Precedência: `--state-dir` → `MEGABRAIN_STATE_HOME` → diretório do sistema.
+- O adapter de thread v0.2 padrão registra indisponibilidade e usa checkpoint; ainda não chama Codex real.
+- A configuração TOML em `core/templates/managed-codex-memory.toml` precisa ser aplicada pelo futuro wrapper do processo Codex. O manifest já exige os valores desativados, mas isso não prova a configuração de um processo externo.
+- Policies YAML são contratos versionados e não constituem sandbox por si só.
+- Busca FULL prefere `rg` e usa fallback filesystem determinístico; não há embeddings ou banco vetorial.
+- Fixtures são sintéticas. Caminhos pessoais/corporativos reais ficam fora deste Git.
 
-- Windows: `%LOCALAPPDATA%/megabrain`.
-- Linux: `$XDG_STATE_HOME/megabrain`, ou `~/.local/state/megabrain`.
-- O estado não pode ficar dentro do núcleo ou de qualquer repositório Git.
-
-Cada run fica em `profiles/synthetic/runs/RUN_ID/`. Cada operação publica uma nova pasta numerada contendo `checkpoint.json`, `run-manifest.yaml`, `task-state.yaml`, `trace.jsonl` e `result.md`; a avaliação acrescenta `evaluation.yaml`.
-
-`checkpoint.json` é a fonte de verdade. Os YAMLs, Markdown e JSONL são projeções para inspeção. Cada revisão traz o trace acumulado, portanto use a revisão mais recente; não concatene todas. Não edite os checkpoints para aprovar planos: use `approve` e o hash apresentado. A máquina protege contra erros e concorrência acidental, não contra o próprio usuário adulterando os arquivos com acesso ao sistema.
-
-O HOT state contém a descrição sintética, artefatos e aprovações necessários à retomada. Isso é diferente do trace, que guarda somente metadados permitidos. Os filtros de credenciais são uma defesa adicional, não garantia de anonimização de qualquer texto. Use somente dados sintéticos nesta versão. Retenção automática ainda não foi implementada.
-
-## Retomada e recuperação
-
-`resume` carrega o último checkpoint completo, compara o hash da configuração e conserva a thread simulada. Não relê o arquivo original da tarefa: utiliza o snapshot salvo. Nesta alpha, mudança de runtime/configuração exige um run novo; migração e reconstrução seletiva de contexto ficam para o Marco 3.
-
-Pastas `.pending-*` são revisões incompletas e não são selecionadas. Uma revisão completa corrompida provoca erro explícito; não se usa uma revisão anterior silenciosamente. Os checkpoints anteriores permanecem disponíveis para inspeção manual.
-
-Há um lock por run. Se um processo encerrar abruptamente, primeiro confirme que nenhum MegaBrain está usando aquele run. Depois remova **somente a pasta vazia `.lock` daquele run** e execute `status`. Não há desbloqueio automático por tempo, para evitar dois processos gravando simultaneamente. A publicação por rename protege interrupções entre arquivos; durabilidade contra queda de energia/fsync ainda não está garantida.
-
-## Desenvolver
-
-```sh
-npm run build
-npm run lock
-npm run check
-```
-
-`check` compila TypeScript em modo estrito, executa a suite determinística, valida templates/fixtures e confere `megabrain.lock.yaml`. O lock fixa hashes de fontes, schemas, perfis, policies e dependências; o SDK Codex aparece como `null` porque ainda não está instalado.
-
-Os templates de trabalho e pessoal são exemplos **inativos**. São JSON válido dentro de arquivos YAML, aceito pelo parser YAML. O runtime exige `--profile synthetic`; não escolhe perfil nem fontes com base na descrição da tarefa. As policies YAML documentam e participam dos hashes; o gate atual é código determinístico. O interpretador de capabilities e o sandbox real são trabalho do Marco 2/4.
-
-## Próximos marcos
-
-Consulte `docs/implementation-status.md` para a separação entre implementado e planejado. O próximo incremento é o loader de overlays e a composição de permissões; depois entram busca com `rg`, proveniência, skills e adapter Codex. OpenTelemetry/Aspire vem após o contrato JSONL já existente.
-
-O [SDK oficial do Codex](https://learn.chatgpt.com/docs/codex-sdk) oferece start/continue/resume de threads locais. As capacidades de sandbox, cancelamento, ambiente e eventos precisam ser verificadas contra a versão instalada no Marco 4 antes de qualquer alegação de segurança real.
+Veja `docs/implementation-status.md`, os runbooks em `docs/runbooks/` e as decisões ADR-020 a ADR-031.

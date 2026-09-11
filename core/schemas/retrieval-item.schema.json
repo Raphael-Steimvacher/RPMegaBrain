@@ -1,0 +1,116 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "v2-retrieval-item",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "retrieval_item_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "warm",
+        "full"
+      ]
+    },
+    "item_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "content": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 10000
+    },
+    "profile_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+    },
+    "scope_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000
+    },
+    "source_ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "source_hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "valid_until": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "sensitivity": {
+      "type": "string",
+      "enum": [
+        "public",
+        "personal",
+        "confidential"
+      ]
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "tentative",
+        "supported",
+        "confirmed"
+      ]
+    },
+    "reason_selected": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000
+    },
+    "rank_factors": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+      },
+      "minItems": 1
+    },
+    "estimated_tokens": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "data_not_instructions": {
+      "const": true
+    }
+  },
+  "required": [
+    "retrieval_item_id",
+    "type",
+    "item_id",
+    "revision",
+    "content",
+    "profile_id",
+    "scope_id",
+    "source_ref",
+    "source_hash",
+    "valid_until",
+    "sensitivity",
+    "confidence",
+    "reason_selected",
+    "rank_factors",
+    "estimated_tokens",
+    "data_not_instructions"
+  ]
+}

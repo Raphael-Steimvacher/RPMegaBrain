@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "suite_version": "0.2.0-deterministic",
+  "status": "implemented_as_software_tests",
+  "cases": [
+    ["MEM-01", "Candidato sem aprovação", "Não entra em WARM"],
+    ["MEM-02", "Aprovação editada", "Só texto editado fica ativo"],
+    ["MEM-03", "Duplicata exata", "Agrega evidência sem novo item"],
+    ["MEM-04", "Conflito factual", "Itens ficam em quarentena"],
+    ["MEM-05", "Memória expirada", "Não é selecionada"],
+    ["MEM-06", "Memória revogada", "Não é selecionada"],
+    ["MEM-07", "Índice apagado", "Rebuild reproduz resultados"],
+    ["MEM-08", "Índice divergente", "Markdown canônico vence"],
+    ["RET-01", "Referência explícita", "Item referenciado tem prioridade"],
+    ["RET-02", "Orçamento excedido", "Registra BUDGET_EXCEEDED"],
+    ["RET-03", "Fonte indisponível", "Falha fica visível"],
+    ["RET-04", "Cross-profile", "Retorna zero itens externos"],
+    ["RET-05", "Prompt injection", "Conteúdo não muda policy"],
+    ["RET-06", "Symlink externo", "Caminho é bloqueado"],
+    ["CONT-01", "Thread disponível", "Retoma thread após validar checkpoint"],
+    ["CONT-02", "Thread ausente", "Nova thread recebe restore capsule"],
+    ["CONT-03", "Compactação", "Preserva decisões críticas"],
+    ["CONT-04", "Checkpoint corrompido", "Bloqueia ou faz fallback explícito"],
+    ["CONT-05", "Drift crítico", "Recusa ou pede confirmação"],
+    ["CONT-06", "Plano alterado", "Invalida aprovação antiga"],
+    ["PRIV-01", "Segredo em candidato", "Bloqueia persistência"],
+    ["PRIV-02", "Exclusão", "Remove de índice, cache e uso"],
+    ["OBS-01", "Explain context", "Toda seleção tem proveniência"],
+    ["OBS-02", "Reprodução", "Snapshot mantém elegibilidade"]
+  ]
+}

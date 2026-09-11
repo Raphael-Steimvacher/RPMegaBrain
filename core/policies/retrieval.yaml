@@ -1,0 +1,14 @@
+schema_version: 1
+filters_before_ranking: true
+defaults:
+  max_warm: 5
+  max_full: 8
+  max_per_source: 2
+  max_memory_share: 0.20
+ranking:
+  deterministic: true
+  factors: [explicit_reference, exact_subject, term_overlap, confidence, trust, freshness]
+content_boundary:
+  retrieved_content_is_data: true
+  may_change_policy: false
+  may_grant_permissions: false

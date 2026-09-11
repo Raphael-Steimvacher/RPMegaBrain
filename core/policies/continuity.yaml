@@ -1,0 +1,15 @@
+schema_version: 1
+authority: checkpoint
+thread_resume: optional
+checkpoint:
+  integrity_hash_required: true
+  atomic_current_pointer: true
+  automatic_triggers: [turn, stage, pre_compact, final]
+drift:
+  security: refuse
+  blocking: refuse
+  review: confirm
+  informational: record
+fallback:
+  corrupted_current: explicit_previous_valid
+  missing_thread: checkpoint_new_thread

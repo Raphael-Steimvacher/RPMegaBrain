@@ -1,0 +1,6 @@
+interface:
+  display_name: "Memory Curator"
+  short_description: "Propõe memórias WARM para revisão humana"
+  default_prompt: "Analise a tarefa concluída indicada e proponha até três candidatos de memória WARM, sem aprovar nem persistir memória ativa."
+policy:
+  allow_implicit_invocation: false

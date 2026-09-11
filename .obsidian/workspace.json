@@ -11,12 +11,12 @@
             "id": "915cfb0b3d533207",
             "type": "leaf",
             "state": {
-              "type": "vscode-editor",
+              "type": "yaml",
               "state": {
-                "file": "dist/scripts/demo.js"
+                "file": "profiles/templates/work/profile.yaml"
               },
               "icon": "lucide-file",
-              "title": "demo"
+              "title": "profile"
             }
           }
         ]
@@ -201,20 +201,21 @@
   },
   "active": "915cfb0b3d533207",
   "lastOpenFiles": [
+    "tests/v2.test.ts",
+    "megabrain.lock.yaml",
+    "package.json",
+    "README.md",
+    "Blueprints/megabrain-blueprint-v0.1.md",
+    "Blueprints/megabrain-blueprint-v0.2.md",
+    "dist/src/cli/main.js",
+    "dist/src/cli/main.d.ts",
+    "tests/core.test.ts",
+    "dist/scripts/demo.js",
     "dist/scripts/validate.js",
     "dist/scripts/validate.d.ts",
     "dist/scripts/lock.d.ts",
     "dist/scripts/lock.js",
-    "dist/scripts/demo.js",
-    "dist/scripts/demo.d.ts",
-    "package.json",
-    "package-lock.json",
-    "src/cli/main.ts",
-    "src/application/workflow.ts",
-    "src/adapters/mock.ts",
     "AGENTS.md",
-    "README.md",
-    "Blueprints/megabrain-blueprint-v0.1.md",
     "Rascunhos/Rascunho v0.0.md"
   ]
 }

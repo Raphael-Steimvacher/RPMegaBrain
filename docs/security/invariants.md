@@ -1,17 +1,21 @@
 # Invariantes e limites de enforcement
 
-| Regra | Enforcement nesta alpha | Limite |
+| Regra | Enforcement na v0.2-alpha | Limite atual |
 |---|---|---|
-| Teach por padrão | Parser + resolveMode; review volta a teach | Mock não tem ferramentas |
-| Plano antes de implementar | Etapa + ator humano + timestamp + hash atual | Aprovação é entrada CLI, não assinatura criptográfica |
-| Um perfil ativo | CLI aceita somente synthetic; manifest valida perfil | Overlays reais ainda não são carregados |
-| Fonte fora da allowlist bloqueada | Função requireSource com teste adversarial | Não há retrieval ainda |
-| Modelo não concede permissões | Opções CLI fora do conteúdo da tarefa | Validar novamente com modelo real |
-| Estado fora do Git | Verificação de ancestrais, UUID e recusa de symlink/junction | Não protege contra atacante local com acesso concorrente ao disco |
-| Trace sem conteúdo bruto | Allowlist de atributos e redação; nunca serializar erros brutos | Redactor não detecta todos os segredos possíveis |
-| Sem falso teste aprovado | Mock marcado; verificação declara somente integridade do plano | Verificação real pertence ao Marco 5 |
-| Falhas graves impedem aceitação | Condição no JSON Schema de avaliação | Detecção automática de todas as falhas ainda não existe |
-| Retomada sem corrupção silenciosa | Revisões imutáveis, lock e validação de identidades/sequência | fsync/queda de energia e migração de schema pendentes |
-| Sem ações externas | Nenhuma ferramenta ou adapter externo no mock | Validar rede, shell e MCP antes do Codex |
+| Checkpoint é autoridade | Hash, schema estrito, identidade, encadeamento e `current` atômico | Checkpoints locais não são assinados |
+| Thread é opcional | Falha de resume cria restore capsule e fallback | Adapter Codex real ainda ausente |
+| Plano antes de implementar | Etapa, ator humano, timestamp e hash atual | Aprovação CLI não é assinatura criptográfica |
+| WARM ativa exige humano | Candidato pendente separado e review com hash exato | Identidade do usuário é local |
+| Memória inativa não entra | Índice contém somente `active`; canônico é revalidado | Relógio local governa validade |
+| FULL é read-only | Schema fixa `read_only: true`; adapter só usa leitura/`rg`/Git read-only | Policies YAML sozinhas não criam sandbox |
+| Um perfil por run | Diretórios, índice, registry, IDs e pedidos validados por perfil | Proteção contra atacante local depende das ACLs |
+| Symlink externo bloqueado | `realpath`, containment e doctor recusam escape | Reparse points incomuns exigem validação adicional |
+| Conteúdo não concede autoridade | Itens são `data_not_instructions`; filtros ocorrem antes do ranking | Um modelo real ainda precisa de avaliação adversarial |
+| Segredo não persiste em WARM/HOT | Detector bloqueia padrões conhecidos; trace usa allowlist | Redação não detecta todo dado sensível possível |
+| Exclusão material | Remove item, revisões, candidatos relacionados e índice; mantém tombstone sem conteúdo | Backups externos não são administrados nesta alpha |
+| Memória Codex desligada | Schema/manifest exigem todos os flags falsos | Aplicação ao processo externo depende do futuro wrapper |
+| Sem regressão v0.1 | Os 31 testes originais continuam na suíte | Migração automática de estado não foi adicionada |
 
-As policies YAML expressam o contrato pretendido. Não constituem sandbox. A v0.1 real deve comprovar restrições de escrita e de leitura independentemente da obediência ao prompt. Contexto marcado como não confiável reduz ambiguidade; sozinho não impede prompt injection.
+O estado mutável fica fora do núcleo Git e não aceita raiz dentro de outro repositório. Locks evitam dois escritores cooperativos; publicação por rename impede revisão parcial visível. Não há garantia de fsync contra queda de energia nem proteção contra um usuário local com acesso ao mesmo diretório.
+
+Memória, fontes, comentários de código e Markdown são dados não confiáveis. Nenhum texto recuperado altera profile, policy, modo, aprovação ou capabilities. Essas decisões vêm de entrada explícita e configuração validada antes da busca.

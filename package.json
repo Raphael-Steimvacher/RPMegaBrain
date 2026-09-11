@@ -1,13 +1,13 @@
 {
   "name": "rpmegabrain",
-  "version": "0.1.0-alpha.1",
+  "version": "0.2.0-alpha.1",
   "private": true,
   "type": "module",
-  "description": "Harness pessoal: contratos e ciclo WAC local com motor simulado.",
+  "description": "Harness pessoal local com continuidade, memória governada e recuperação seletiva.",
   "engines": { "node": ">=24.0.0" },
   "bin": { "megabrain": "dist/src/cli/main.js" },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "node node_modules/typescript/bin/tsc -p tsconfig.json",
     "test": "npm run build && node --test dist/tests/*.test.js",
     "check": "npm test && node dist/scripts/validate.js && node dist/scripts/lock.js --check",
     "lock": "npm run build && node dist/scripts/lock.js",

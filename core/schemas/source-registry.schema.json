@@ -1,0 +1,128 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "v2-source-registry",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "profile_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+          },
+          "adapter": {
+            "type": "string",
+            "enum": [
+              "filesystem-markdown",
+              "git-repository",
+              "runbook-directory",
+              "profile-context"
+            ]
+          },
+          "root": {
+            "type": "string",
+            "minLength": 1
+          },
+          "trust": {
+            "type": "string",
+            "enum": [
+              "authoritative",
+              "maintained",
+              "advisory",
+              "historical",
+              "untrusted"
+            ]
+          },
+          "sensitivity": {
+            "type": "string",
+            "enum": [
+              "public",
+              "personal",
+              "confidential"
+            ]
+          },
+          "read_only": {
+            "const": true
+          },
+          "include": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "minItems": 1
+          },
+          "exclude": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          },
+          "allowed_workflows": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+            },
+            "minItems": 1
+          },
+          "freshness": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "strategy": {
+                "type": "string",
+                "enum": [
+                  "git-commit",
+                  "file-hash",
+                  "mtime"
+                ]
+              }
+            },
+            "required": [
+              "strategy"
+            ]
+          },
+          "max_item_bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+          }
+        },
+        "required": [
+          "source_id",
+          "adapter",
+          "root",
+          "trust",
+          "sensitivity",
+          "read_only",
+          "include",
+          "exclude",
+          "allowed_workflows",
+          "freshness",
+          "max_item_bytes"
+        ]
+      },
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "schema_version",
+    "profile_id",
+    "sources"
+  ]
+}

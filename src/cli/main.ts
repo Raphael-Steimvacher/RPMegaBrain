@@ -5,6 +5,7 @@ import type { Checkpoint, Evaluation, TaskInput } from '../domain/contracts.js';
 import { DomainError, resolveMode } from '../domain/policy.js';
 import { RunStore } from '../infrastructure/run-store.js';
 import { parseFile } from '../infrastructure/validation.js';
+import { handleV2 } from './v2.js';
 
 const help = `MegaBrain 0.1.0-alpha.1 — somente simulação local, sem IA\n
 Uso após npm run build:
@@ -35,6 +36,7 @@ function display(cp: Checkpoint, json: boolean): void {
   console.log(`\n${cp.artifacts.result}`);
 }
 async function main(): Promise<void> {
+  if (await handleV2(process.argv.slice(2))) return;
   const { values, positionals } = parseArgs({ allowPositionals: true, strict: true,
     options: { profile: { type: 'string' }, 'task-file': { type: 'string' }, mode: { type: 'string' },
       engine: { type: 'string' }, 'state-dir': { type: 'string' }, hash: { type: 'string' }, file: { type: 'string' },

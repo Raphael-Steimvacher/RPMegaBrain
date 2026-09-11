@@ -1,0 +1,210 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "v2-memory-candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "candidate_id": {
+      "type": "string",
+      "pattern": "^cand_[A-Za-z0-9-]+$"
+    },
+    "profile_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+    },
+    "task_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+    },
+    "scope_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "decision",
+        "correction",
+        "preference",
+        "convention",
+        "verified_fact",
+        "pattern"
+      ]
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 5000
+    },
+    "limits": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 5000
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "tentative",
+        "supported",
+        "confirmed"
+      ]
+    },
+    "sensitivity": {
+      "type": "string",
+      "enum": [
+        "public",
+        "personal",
+        "confidential"
+      ]
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2000
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "source_run_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "suggested_validity": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "static",
+            "release_bound",
+            "repository_bound",
+            "time_bound",
+            "task_bound"
+          ]
+        },
+        "valid_until": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "valid_until"
+      ]
+    },
+    "duplicate_candidates": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+      },
+      "uniqueItems": true
+    },
+    "conflict_candidates": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+      },
+      "uniqueItems": true
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "rejected",
+        "deferred",
+        "approved"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "statement_hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "decided_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "decision": {
+          "type": "string",
+          "enum": [
+            "approved",
+            "edited_and_approved",
+            "rejected",
+            "deferred"
+          ]
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "decided_at",
+        "decision",
+        "reason"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "candidate_id",
+    "profile_id",
+    "task_id",
+    "scope_id",
+    "kind",
+    "subject",
+    "statement",
+    "limits",
+    "confidence",
+    "sensitivity",
+    "evidence_refs",
+    "source_run_ids",
+    "suggested_validity",
+    "duplicate_candidates",
+    "conflict_candidates",
+    "status",
+    "created_at",
+    "statement_hash"
+  ]
+}

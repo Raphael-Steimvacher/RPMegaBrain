@@ -1,26 +1,28 @@
-# Taxonomia de eventos v1
+# Taxonomia de eventos
 
-Todo evento tem versão, timestamp UTC, sequência monotônica por run, run/task IDs, produtor, fase, resultado, duração e atributos. A alpha emite eventos pontuais com `duration_ms: 0`; não interpreta esse valor como medição de latência do motor.
+Eventos v0.1 preservam o contrato original por run. O subsistema v0.2 grava JSONL por perfil com `schema_version: 2`, timestamp UTC, `run_id`, `task_id`, `checkpoint_id`, `profile_id` e uma allowlist curta de atributos. Texto bruto, prompts, respostas, transcript, raciocínio interno e erros completos não entram no evento.
 
-## Emitidos na alpha
+## Continuidade
 
-- `run.started`, `profile.selected`, `workflow.selected`, `policy.composed`.
-- `task.state_changed`, `approval.recorded`, `mode.changed`.
-- `engine.thread_started`, `engine.thread_resumed`, `engine.completed`, `engine.cancelled`.
-- `policy.blocked`, `run.failed`.
-- `verification.completed`, `evaluation.recorded`, `run.completed`.
+- `checkpoint.created`, `checkpoint.loaded`, `checkpoint.validation_failed`, `checkpoint.fallback_loaded`.
+- `checkpoint.drift_detected`.
+- `continuity.restore_capsule_built`, `continuity.thread_resumed`, `continuity.thread_resume_failed`.
+- `continuity.recovered_from_checkpoint`, `continuity.user_confirmation_required`.
 
-O campo `simulated` identifica os checkpoints do mock. `verification.completed` comprova apenas o hash da aprovação. `run.completed` informa que o ciclo terminou; o verdict pode ser rejeitado e deve ser consultado separadamente. Erros do motor são registrados em `run.failed` com código genérico, preservando o estado anterior. Falhas de CLI anteriores à criação do run vão para stderr, sem criar run artificial.
+## Memória
 
-## Reservados pelos contratos
+- `memory.candidate_created`, `memory.approved`, `memory.rejected`, `persistence.denied`.
+- `memory.duplicate_detected`, `memory.conflict_detected`.
+- `memory.expired`, `memory.revoked`, `memory.deleted`.
+- `memory.snapshot_created`, `memory.index_rebuilt`, `memory.index_unavailable`, `memory.selected`.
+- `secret.detected`.
 
-- `skill.selected`.
-- `context.lookup_started`, `context.item_selected`, `context.item_rejected`, `context.bundle_built`.
-- `engine.failed`, `tool.started`, `tool.completed`, `tool.failed`.
-- `feedback.proposed`, `feedback.rejected`.
+## Fontes e recuperação
 
-Serão emitidos quando os componentes correspondentes existirem. Não criar eventos fictícios para parecer que uma ferramenta ou fonte foi utilizada.
+- `source.scanned`, `source.selected`, `source.snapshot_created`, `source.unavailable`, `source.path_blocked`.
+- `retrieval.started`, `retrieval.query_built`, `retrieval.completed`.
+- `context.item_rejected`, `context.bundle_built`.
 
-## Persistência
+O `run-manifest-v2.yaml` registra `native_codex_memory.policy_reason: megabrain_managed_memory`. O futuro wrapper deve emitir `native_memory.policy_applied` somente depois de aplicar e verificar as opções no processo Codex real.
 
-Cada revisão publica um trace JSONL acumulado. Sequências e identidades são validadas junto com o checkpoint; retomada não reinicia a sequência. Prompts, respostas completas, erros brutos e raciocínio interno não são atributos. O resultado sintético fica no HOT state e em `result.md`, fora do trace e do Git.
+Hashes, revisões, reason codes, contagens e posições de ranking permitem explicar a seleção sem persistir o conteúdo. O context bundle guarda o trecho selecionado no estado privado porque ele é necessário para reprodução e inspeção; não é duplicado no trace.

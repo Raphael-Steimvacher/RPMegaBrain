@@ -1,0 +1,18 @@
+schema_version: 1
+promotion:
+  human_approval_required: true
+  expected_statement_hash_required: true
+  automatic_activation: false
+  max_candidates_per_curation: 3
+lifecycle:
+  canonical_format: markdown
+  index_authority: derived
+  active_statuses: [active]
+  excluded_statuses: [superseded, expired, revoked, quarantined]
+isolation:
+  one_profile_per_run: true
+  cross_profile_copy: false
+native_codex_memory:
+  use: false
+  generate: false
+  external_context_generation: false

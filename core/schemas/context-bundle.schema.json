@@ -1,0 +1,266 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "v2-context-bundle",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "retrieval_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+    },
+    "task_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+    },
+    "profile_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+    },
+    "memory_mode": {
+      "type": "string",
+      "enum": [
+        "disabled",
+        "shadow",
+        "warm",
+        "full"
+      ]
+    },
+    "memory_snapshot_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^memsnap_[a-f0-9]+$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "source_snapshots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "selected_hashes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            }
+          },
+          "captured_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "source_id",
+          "revision",
+          "selected_hashes",
+          "captured_at"
+        ]
+      }
+    },
+    "selected": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "retrieval_item_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "warm",
+              "full"
+            ]
+          },
+          "item_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "content": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10000
+          },
+          "profile_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+          },
+          "scope_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "source_ref": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "source_hash": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "valid_until": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sensitivity": {
+            "type": "string",
+            "enum": [
+              "public",
+              "personal",
+              "confidential"
+            ]
+          },
+          "confidence": {
+            "type": "string",
+            "enum": [
+              "tentative",
+              "supported",
+              "confirmed"
+            ]
+          },
+          "reason_selected": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "rank_factors": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+            },
+            "minItems": 1
+          },
+          "estimated_tokens": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "data_not_instructions": {
+            "const": true
+          }
+        },
+        "required": [
+          "retrieval_item_id",
+          "type",
+          "item_id",
+          "revision",
+          "content",
+          "profile_id",
+          "scope_id",
+          "source_ref",
+          "source_hash",
+          "valid_until",
+          "sensitivity",
+          "confidence",
+          "reason_selected",
+          "rank_factors",
+          "estimated_tokens",
+          "data_not_instructions"
+        ]
+      }
+    },
+    "rejected": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "item_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "source_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+          },
+          "reason_code": {
+            "type": "string",
+            "enum": [
+              "PROFILE_MISMATCH",
+              "SOURCE_NOT_ALLOWED",
+              "SENSITIVITY_BLOCKED",
+              "STATUS_INACTIVE",
+              "EXPIRED",
+              "CONFLICTED",
+              "HASH_INVALID",
+              "WORKFLOW_NOT_ALLOWED",
+              "LOW_RELEVANCE",
+              "BUDGET_EXCEEDED",
+              "DUPLICATE",
+              "SOURCE_UNAVAILABLE",
+              "PATH_BLOCKED"
+            ]
+          }
+        },
+        "required": [
+          "item_id",
+          "source_id",
+          "reason_code"
+        ]
+      }
+    },
+    "estimated_tokens": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "injected": {
+      "type": "boolean"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "schema_version",
+    "retrieval_id",
+    "run_id",
+    "task_id",
+    "profile_id",
+    "memory_mode",
+    "memory_snapshot_id",
+    "source_snapshots",
+    "selected",
+    "rejected",
+    "estimated_tokens",
+    "injected",
+    "created_at"
+  ]
+}

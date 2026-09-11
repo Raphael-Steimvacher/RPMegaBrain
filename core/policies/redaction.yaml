@@ -1,0 +1,14 @@
+schema_version: 1
+persist_raw_prompts: false
+persist_transcripts: false
+persist_chain_of_thought: false
+secret_handling:
+  candidate: block
+  checkpoint: block
+  trace: metadata_only
+patterns:
+  - private_key
+  - openai_api_key
+  - github_token
+  - bearer_token
+  - named_secret

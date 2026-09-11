@@ -1,48 +1,39 @@
 # Estado da implementação
 
-Data: 11/09/2026. Versão: 0.1.0-alpha.1.
+Data: 11/09/2026. Versão: 0.2.0-alpha.1.
 
-## Leitura e interpretação
+O blueprint v0.2 é a referência vigente. Esta entrega implementa o núcleo local e determinístico; não declara integração real com Codex, sandbox do agente ou qualidade de resposta de modelo.
 
-Foram lidos o rascunho v0.0 e o blueprint técnico v0.1 do repositório. A conversa compartilhada não carregou no ChatGPT. O blueprint mais recente orientou a implementação; nenhum dado ou decisão adicional foi presumido a partir da conversa inacessível.
-
-## Entrega atual
-
-| Marco | Estado | Evidência |
+| Marco v0.2 | Estado | Evidência |
 |---|---|---|
-| 0 — contratos | Base implementada | 8 ADRs, 9 schemas, invariantes, taxonomia, fixtures e casos iniciais catalogados |
-| 1 — CLI/run store | Caminho principal implementado com mock | wac/status/approve/resume/review/eval/trace, checkpoints, manifest, erros e cancelamento |
-| 2 — perfil/policy | Apenas fundamentos | teach por padrão, gate por hash e função de allowlist testados; loaders reais pendentes |
-| 3 — contexto/skills | Pendente | Nenhuma recuperação de fontes ou skill carregada nesta alpha |
-| 4 — Codex | Pendente | Interface AgentEngine e mock; SDK ausente |
-| 5 — verificação real | Pendente | Só integridade dos contratos/aprovação; não inspeciona diff ou testes reais |
-| 6 — OTel | Pendente | JSONL local existente; collector, redactor OTel, Aspire e retenção pendentes |
-| 7 — baseline/release | Pendente | Testes de software existentes; ainda sem baseline de qualidade do modelo |
+| 0 — ADRs e schemas | Implementado | ADR-020 a ADR-031, 8 schemas estritos, policies e fixtures |
+| 1 — Checkpoints | Implementado | store imutável, encadeamento, hash, `current`, list/inspect/verify e corrupção testada |
+| 2 — Continuity Manager | Núcleo implementado | restore capsule, thread opcional, fallback, recovery checkpoint e drift; adapter Codex real pendente |
+| 3 — WARM canônica | Implementado | candidatos, revisão humana por hash, Markdown, revisões, lifecycle, locks, exclusão e FTS5 reconstruível |
+| 4 — Retrieval WARM | Implementado | filtros, ranking determinístico, orçamento, snapshot, context bundle e explain-context |
+| 5 — FULL | Implementado para filesystem/Git local | registry, `rg` com fallback filesystem, provenance, snapshots, doctor, include/exclude e bloqueio de symlink externo |
+| 6 — Curadoria | Implementado | skill explicit-only, propostas pendentes, duplicatas, conflitos, expiração, revogação e histórico |
+| 7 — Release | Alpha validada | 24 casos catalogados; 56 testes de software passam; baseline de modelo e RC final pendentes |
 
-O catálogo de 15 casos descreve os cenários de avaliação da v0.1. Ele não representa 15 evals de modelo executados. A suite em `tests/` mede os contratos e o ciclo de software e não mede qualidade de resposta do Codex.
+Os 31 testes v0.1 continuam passando. Os 25 testes v0.2 cobrem checkpoints, continuidade com e sem thread, drift, aprovação, duplicata, conflito, validade, exclusão, FTS5, segredo, FULL com e sem `rg`, symlink, orçamento, shadow, manifest e isolamento físico. O catálogo de 24 casos também inclui cenários que ainda precisam virar avaliações completas de modelo; teste determinístico de software não mede qualidade do Codex.
 
-## Plano de arquivos do Marco 0
+## Implementado com enforcement local
 
-1. `docs/adr/`: registrar as sete decisões do blueprint e a escolha operacional Node/Windows.
-2. `schemas/`: contratos de perfil, fontes, entrada WAC, manifest, estado, trace, avaliação, checkpoint e proposta.
-3. `docs/architecture/events.md`: distinguir eventos implementados dos reservados para o runtime real.
-4. `docs/security/invariants.md`: ligar cada garantia à implementação ou ao marco pendente.
-5. `evals/fixtures/` e `evals/cases/`: somente conteúdo sintético.
-6. `src/domain/`: tipos e regras puras sem depender do SDK.
-7. `src/infrastructure/`: hashes, validação, redação e store; só então `src/application/` e CLI.
+- Estado, cache e eventos separados fisicamente por perfil.
+- Checkpoint como autoridade e thread como otimização.
+- Aprovação humana pelo hash exato antes de ativar memória.
+- Fontes FULL read-only com raiz absoluta, path containment e provenance.
+- Conteúdo recuperado marcado como dado e incapaz de mudar policy no pipeline.
+- Manifest v2 com versões de contrato e memória nativa declarada como desativada.
+- Bloqueio defensivo de padrões comuns de segredo antes de persistir candidato/checkpoint.
 
-## Limites deliberados
+## Trabalho restante para a v0.2 final
 
-- Nenhum runtime real, shell de agente, integração ou acesso a arquivos-alvo.
-- Isolamento de leitura por allowlist/sandbox ainda precisa de enforcement real; o teste puro de allowlist não prova isolamento do Codex.
-- O mock tem texto fixo e não é um planejador útil para uma WAC real.
-- O estado `needs_changes` está no contrato, mas o caminho de replanejamento ainda não foi exposto na CLI.
-- Sem edição de artefatos pela CLI, retenção, promoção WARM, analyzer ou propostas automáticas.
-- Sem retentativa automática; falhas/cancelamentos mantêm o checkpoint anterior e aceitam retomada explícita.
-- JSON Schemas da alpha restringem o adapter a mock. Adicionar Codex exige revisar os contratos e a compatibilidade dos checkpoints.
-- `storage_revision` cresce a cada gravação; `run_revision` cresce ao retomar execução/recompor modo, mantendo o mesmo run/task ID.
-- Os checkpoints são locais e não assinados. ACLs do Windows são herdadas; modos POSIX são solicitados em sistemas compatíveis.
+- Conectar um adapter real do Codex e aplicar as opções de memória ao processo iniciado pelo wrapper.
+- Comprovar sandbox/capabilities contra a versão instalada do Codex.
+- Adicionar resolução guiada de conflitos; nesta alpha conflitos ficam em quarentena e exigem nova curadoria/revogação.
+- Medir baseline e metas de Precision@5, recall crítico, uso de contexto, latência e tokens com execuções de modelo.
+- Validar operacionalmente Linux, backup/restore e durabilidade contra queda de energia.
+- Rodar cenários reais sanitizados antes de promover a RC.
 
-## Próximo incremento concreto
-
-Marco 2: resolver um único perfil, ler overlay configurado fora do núcleo, validar raízes reais e symlinks, aplicar allowlist antes de acessar fontes e exibir capabilities. Bloquear escrita real até existir um adapter com sandbox comprovado. Para ativar `work.colmeia`, serão necessários os caminhos do overlay e do repositório-alvo autorizado; eles não são necessários para esta entrega sintética.
+Os overlays reais `personal` e `work.colmeia` continuam fora do repositório. Para habilitá-los, copie os templates para a configuração local e informe raízes absolutas autorizadas.
