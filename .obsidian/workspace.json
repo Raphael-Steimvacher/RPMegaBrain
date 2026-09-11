@@ -11,12 +11,14 @@
             "id": "915cfb0b3d533207",
             "type": "leaf",
             "state": {
-              "type": "yaml",
+              "type": "markdown",
               "state": {
-                "file": "profiles/templates/work/profile.yaml"
+                "file": "README.md",
+                "mode": "source",
+                "source": false
               },
               "icon": "lucide-file",
-              "title": "profile"
+              "title": "README"
             }
           }
         ]
@@ -199,22 +201,33 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "915cfb0b3d533207",
+  "active": "a64bddcd04a96844",
   "lastOpenFiles": [
-    "tests/v2.test.ts",
-    "megabrain.lock.yaml",
-    "package.json",
+    "Blueprints/megabrain-blueprint-v0.3.md",
+    "dist/scripts/validate.d.ts",
+    "dist/scripts/validate.js",
+    "dist/scripts/validate.js.map",
+    "dist/scripts/lock.d.ts",
+    "dist/scripts/lock.js",
+    "dist/scripts/lock.js.map",
+    "dist/scripts/demo.js.map",
+    "dist/scripts/demo.js",
+    "dist/scripts/demo.d.ts",
+    "dist/scripts",
+    "node_modules/ajv/README.md",
+    "node_modules/typescript/SECURITY.md",
+    "node_modules/typescript/README.md",
+    "node_modules/yaml/README.md",
+    "node_modules/fast-uri/README.md",
+    "node_modules/ajv-formats/README.md",
+    "node_modules/json-schema-traverse/README.md",
+    "node_modules/fast-deep-equal/README.md",
+    "node_modules/@types/node/README.md",
+    "node_modules/require-from-string/readme.md",
+    "node_modules/undici-types/README.md",
     "README.md",
     "Blueprints/megabrain-blueprint-v0.1.md",
     "Blueprints/megabrain-blueprint-v0.2.md",
-    "dist/src/cli/main.js",
-    "dist/src/cli/main.d.ts",
-    "tests/core.test.ts",
-    "dist/scripts/demo.js",
-    "dist/scripts/validate.js",
-    "dist/scripts/validate.d.ts",
-    "dist/scripts/lock.d.ts",
-    "dist/scripts/lock.js",
     "AGENTS.md",
     "Rascunhos/Rascunho v0.0.md"
   ]
