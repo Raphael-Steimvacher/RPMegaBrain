@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "candidate_id": "cand_fixture-001",
+  "profile_id": "personal",
+  "task_id": "TASK-001",
+  "scope_id": "repository:fixture",
+  "kind": "decision",
+  "subject": "runtime-node",
+  "statement": "O projeto sintético usa Node 24.",
+  "limits": "Revalidar se package.json mudar.",
+  "confidence": "confirmed",
+  "sensitivity": "personal",
+  "evidence_refs": ["git:fixture@abc:package.json"],
+  "source_run_ids": ["RUN-001"],
+  "suggested_validity": { "type": "repository_bound", "valid_until": null },
+  "duplicate_candidates": [],
+  "conflict_candidates": [],
+  "status": "pending",
+  "created_at": "2026-09-11T10:00:00.000Z",
+  "statement_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+}

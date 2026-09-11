@@ -11,10 +11,14 @@
             "id": "915cfb0b3d533207",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "README.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "Nova aba"
+              "title": "README"
             }
           }
         ]
@@ -172,8 +176,8 @@
             "state": {
               "type": "calendar",
               "state": {},
-              "icon": "lucide-ghost",
-              "title": "calendar"
+              "icon": "calendar-with-checkmark",
+              "title": "Calendar"
             }
           }
         ]
@@ -199,20 +203,41 @@
   },
   "active": "915cfb0b3d533207",
   "lastOpenFiles": [
-    "dist/scripts/validate.js",
-    "dist/scripts/validate.d.ts",
-    "dist/scripts/lock.d.ts",
-    "dist/scripts/lock.js",
-    "dist/scripts/demo.js",
-    "dist/scripts/demo.d.ts",
-    "package.json",
-    "package-lock.json",
-    "src/cli/main.ts",
-    "src/application/workflow.ts",
-    "src/adapters/mock.ts",
-    "AGENTS.md",
-    "README.md",
-    "Blueprints/megabrain-blueprint-v0.1.md",
-    "Rascunhos/Rascunho v0.0.md"
+    "tests/v2.test.ts",
+    "src/infrastructure/v2/validation.ts",
+    "src/infrastructure/v2/secrets.ts",
+    "src/infrastructure/v2/paths.ts",
+    "src/infrastructure/v2/events.ts",
+    "src/infrastructure/v2/atomic.ts",
+    "src/infrastructure/v2",
+    "src/domain/v2/source-registry.ts",
+    "src/domain/v2/memory-store.ts",
+    "src/domain/v2/integrity.ts",
+    "src/domain/v2/contracts.ts",
+    "evals/fixtures/v2/sources/work.colmeia/runbook.md",
+    "evals/fixtures/v2/sources/personal/architecture.md",
+    "docs/runbooks/sources-and-retrieval.md",
+    "docs/runbooks/memory.md",
+    "docs/runbooks/continuity.md",
+    "docs/adr/ADR-031-transcript-is-not-integration.md",
+    "docs/adr/ADR-030-checkpoint-trigger-independence.md",
+    "docs/adr/ADR-029-curator-proposes-only.md",
+    "docs/adr/ADR-028-no-vector-database.md",
+    "docs/adr/ADR-027-rg-full-search.md",
+    "docs/adr/ADR-026-disable-native-codex-memory.md",
+    "docs/adr/ADR-025-human-memory-promotion.md",
+    "docs/adr/ADR-024-profile-isolation.md",
+    "docs/adr/ADR-023-full-read-only.md",
+    "docs/adr/ADR-022-sqlite-derived-index.md",
+    "docs/adr/ADR-021-warm-markdown.md",
+    "docs/adr/ADR-020-checkpoint-authority.md",
+    "Blueprints/megabrain-blueprint-v0.3.md",
+    "Blueprints/megabrain-blueprint-v0.2.md",
+    "node_modules/ajv/README.md",
+    "node_modules/typescript/SECURITY.md",
+    "node_modules/typescript/README.md",
+    "node_modules/yaml/README.md",
+    "node_modules/fast-uri/README.md",
+    "node_modules/ajv-formats/README.md"
   ]
 }

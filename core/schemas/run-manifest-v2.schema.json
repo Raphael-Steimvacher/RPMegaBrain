@@ -1,0 +1,286 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "v2-run-manifest-v2",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+    },
+    "task_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+    },
+    "harness_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "harness_commit": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "telemetry_schema_version": {
+      "const": 2
+    },
+    "memory_schema_version": {
+      "const": 1
+    },
+    "checkpoint_schema_version": {
+      "const": 1
+    },
+    "retrieval_schema_version": {
+      "const": 1
+    },
+    "profile_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "teach",
+        "implement"
+      ]
+    },
+    "workflow": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+    },
+    "engine": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "provider": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reasoning_effort": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "codex_version": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "thread_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "provider",
+        "model",
+        "reasoning_effort",
+        "codex_version",
+        "thread_id"
+      ]
+    },
+    "native_codex_memory": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "use": {
+          "const": false
+        },
+        "generate": {
+          "const": false
+        },
+        "external_context_generation": {
+          "const": false
+        },
+        "policy_reason": {
+          "const": "megabrain_managed_memory"
+        }
+      },
+      "required": [
+        "use",
+        "generate",
+        "external_context_generation",
+        "policy_reason"
+      ]
+    },
+    "configuration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "config_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "policies_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "skills_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "config_hash",
+        "policies_hash",
+        "skills_hash"
+      ]
+    },
+    "continuity": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "resumed": {
+          "type": "boolean"
+        },
+        "strategy": {
+          "type": "string",
+          "enum": [
+            "new",
+            "thread",
+            "checkpoint_new_thread",
+            "checkpoint_only"
+          ]
+        },
+        "checkpoint_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "resumed",
+        "strategy",
+        "checkpoint_id"
+      ]
+    },
+    "memory": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "snapshot_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "selected_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+          }
+        }
+      },
+      "required": [
+        "snapshot_id",
+        "selected_ids"
+      ]
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "registry_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "snapshots": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "required": [
+        "registry_hash",
+        "snapshots"
+      ]
+    },
+    "eval_suite_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    }
+  },
+  "required": [
+    "schema_version",
+    "run_id",
+    "task_id",
+    "harness_version",
+    "harness_commit",
+    "telemetry_schema_version",
+    "memory_schema_version",
+    "checkpoint_schema_version",
+    "retrieval_schema_version",
+    "profile_id",
+    "mode",
+    "workflow",
+    "engine",
+    "native_codex_memory",
+    "configuration",
+    "continuity",
+    "memory",
+    "sources",
+    "eval_suite_version"
+  ]
+}

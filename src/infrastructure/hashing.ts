@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-export function hash(content: string): string {
+export function hash(content: string | Uint8Array): string {
   return `sha256:${createHash('sha256').update(content).digest('hex')}`;
 }
 export function stableJson(value: unknown): string {

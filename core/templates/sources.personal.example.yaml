@@ -1,0 +1,14 @@
+schema_version: 1
+profile_id: personal
+sources:
+  - source_id: personal-second-brain
+    adapter: filesystem-markdown
+    root: C:/ABSOLUTE/PATH/TO/SECOND-BRAIN
+    trust: maintained
+    sensitivity: personal
+    read_only: true
+    include: ["**/*.md"]
+    exclude: ["**/.git/**", "**/.env*", "**/secrets/**"]
+    allowed_workflows: [planning, debugging, review]
+    freshness: { strategy: file-hash }
+    max_item_bytes: 50000

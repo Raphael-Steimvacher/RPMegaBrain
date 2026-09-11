@@ -1,7 +1,7 @@
 # Evals
 
-`cases/initial.json` cataloga os 15 cenários do blueprint (4 definição, 4 planejamento, 2 debugging, 2 review, 2 adversariais, 1 retomada). Ainda não é uma suite executável de modelo nem um baseline.
+`cases/initial.json` preserva os 15 cenários v0.1. `cases/v0.2/catalog.json` registra os 24 casos novos de memória, recuperação, continuidade, privacidade e observabilidade.
 
-`fixtures/wac.json` e `fixtures/repository/` são sintéticos. Os testes de contrato e integração do software estão em `tests/core.test.ts` e executam por `npm run check`. Esses testes não medem a qualidade de um LLM.
+Os testes em `tests/` executam contratos e integrações locais com fixtures sintéticas fisicamente separadas por perfil. Eles cobrem os gates de segurança do núcleo, mas não são evals de qualidade de modelo. Baselines de Precision@5, recall crítico, uso de contexto, latência e tokens exigem o futuro adapter Codex e resultados revisados por humano.
 
-No Marco 7, cada cenário precisa de entrada completa, snapshot, critérios verificáveis, resultado do modelo e verdict humano. Só então medir tokens por tarefa aceita e comparar versões.
+Fixtures reais precisam ser sanitizadas antes de entrar no repositório. Overlays e fontes pessoais/corporativas permanecem fora do Git.

@@ -1,0 +1,160 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "v2-retrieval-request",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "retrieval_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+    },
+    "task_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+    },
+    "profile_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+    },
+    "workflow": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+    },
+    "goal": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 5000
+    },
+    "explicit_terms": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      },
+      "maxItems": 50
+    },
+    "explicit_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2000
+      },
+      "maxItems": 50
+    },
+    "active_repository": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "active_files": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2000
+      },
+      "maxItems": 200
+    },
+    "allowed_kinds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "decision",
+          "correction",
+          "preference",
+          "convention",
+          "verified_fact",
+          "pattern"
+        ]
+      },
+      "minItems": 1
+    },
+    "allowed_sources": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$"
+      }
+    },
+    "max_sensitivity": {
+      "type": "string",
+      "enum": [
+        "public",
+        "personal",
+        "confidential"
+      ]
+    },
+    "reference_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "budget_tokens": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100000
+    },
+    "max_warm": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 5
+    },
+    "max_full": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 8
+    },
+    "max_per_source": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2
+    },
+    "memory_mode": {
+      "type": "string",
+      "enum": [
+        "disabled",
+        "shadow",
+        "warm",
+        "full"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "retrieval_id",
+    "run_id",
+    "task_id",
+    "profile_id",
+    "workflow",
+    "goal",
+    "explicit_terms",
+    "explicit_refs",
+    "active_repository",
+    "active_files",
+    "allowed_kinds",
+    "allowed_sources",
+    "max_sensitivity",
+    "reference_time",
+    "budget_tokens",
+    "max_warm",
+    "max_full",
+    "max_per_source",
+    "memory_mode"
+  ]
+}
