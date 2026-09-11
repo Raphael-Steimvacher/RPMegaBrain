@@ -11,14 +11,12 @@
             "id": "915cfb0b3d533207",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "vscode-editor",
               "state": {
-                "file": "Rascunho.md",
-                "mode": "source",
-                "source": false
+                "file": "dist/scripts/demo.js"
               },
               "icon": "lucide-file",
-              "title": "Rascunho"
+              "title": "demo"
             }
           }
         ]
@@ -169,6 +167,16 @@
               "icon": "lucide-list",
               "title": "Sumário"
             }
+          },
+          {
+            "id": "4d297e43f5d2f61f",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {},
+              "icon": "calendar-with-checkmark",
+              "title": "Calendar"
+            }
           }
         ]
       }
@@ -185,11 +193,28 @@
       "daily-notes:Abrir a nota de hoje": false,
       "templates:Inserir modelo": false,
       "command-palette:Abrir paleta de comandos": false,
-      "bases:Criar nova base": false
+      "bases:Criar nova base": false,
+      "omnisearch:Omnisearch": false,
+      "vscode-editor:Create Code File": false,
+      "obsidian-git:Open Git source control": false
     }
   },
   "active": "915cfb0b3d533207",
   "lastOpenFiles": [
-    "Rascunho.md"
+    "dist/scripts/validate.js",
+    "dist/scripts/validate.d.ts",
+    "dist/scripts/lock.d.ts",
+    "dist/scripts/lock.js",
+    "dist/scripts/demo.js",
+    "dist/scripts/demo.d.ts",
+    "package.json",
+    "package-lock.json",
+    "src/cli/main.ts",
+    "src/application/workflow.ts",
+    "src/adapters/mock.ts",
+    "AGENTS.md",
+    "README.md",
+    "Blueprints/megabrain-blueprint-v0.1.md",
+    "Rascunhos/Rascunho v0.0.md"
   ]
 }

@@ -1,0 +1,259 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "run-manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "telemetry_schema_version": {
+      "const": 1
+    },
+    "run_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "task_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$"
+    },
+    "run_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "harness": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "commit": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40,64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "config_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "version",
+        "commit",
+        "config_hash"
+      ]
+    },
+    "engine": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "provider": {
+          "const": "local"
+        },
+        "adapter": {
+          "const": "mock"
+        },
+        "sdk_version": {
+          "const": null
+        },
+        "model": {
+          "const": "synthetic"
+        },
+        "reasoning_effort": {
+          "const": null
+        },
+        "thread_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^mock-[a-f0-9-]{36}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "provider",
+        "adapter",
+        "sdk_version",
+        "model",
+        "reasoning_effort",
+        "thread_id"
+      ]
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profile": {
+          "const": "synthetic"
+        },
+        "workflow": {
+          "const": "wac"
+        },
+        "stage": {
+          "type": "string",
+          "enum": [
+            "definition",
+            "investigation",
+            "planning",
+            "implementation",
+            "review",
+            "verification",
+            "evaluation"
+          ]
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "teach",
+            "implement"
+          ]
+        },
+        "sandbox": {
+          "const": "not-applicable"
+        },
+        "simulated": {
+          "const": true
+        }
+      },
+      "required": [
+        "profile",
+        "workflow",
+        "stage",
+        "mode",
+        "sandbox",
+        "simulated"
+      ]
+    },
+    "components": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "policies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$"
+              },
+              "hash": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "id",
+              "hash"
+            ]
+          },
+          "minItems": 1
+        },
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$"
+              },
+              "hash": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "id",
+              "hash"
+            ]
+          }
+        }
+      },
+      "required": [
+        "policies",
+        "skills"
+      ]
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$"
+          },
+          "revision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "catalog_hash": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "id",
+          "revision",
+          "catalog_hash"
+        ]
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "prompt_content_recorded": {
+          "const": false
+        },
+        "tool_content_recorded": {
+          "const": false
+        },
+        "redaction_policy_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "prompt_content_recorded",
+        "tool_content_recorded",
+        "redaction_policy_hash"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "telemetry_schema_version",
+    "run_id",
+    "task_id",
+    "run_revision",
+    "started_at",
+    "harness",
+    "engine",
+    "execution",
+    "components",
+    "sources",
+    "privacy"
+  ]
+}

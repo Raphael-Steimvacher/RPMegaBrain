@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "task_id": "WAC-SYNTH-001",
+  "title": "Ordenação determinística de campanhas fictícias",
+  "description": "Uma lista sintética deve ser ordenada por data e depois por identificador. Não existem dados de clientes.",
+  "synthetic": true,
+  "acceptance_criteria": [
+    "Ordenar datas em ordem crescente.",
+    "Desempatar por identificador.",
+    "Preservar a lista recebida e aceitar entrada vazia."
+  ]
+}

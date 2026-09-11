@@ -1,0 +1,36 @@
+schema_version: 1
+runtime_version: 0.1.0-alpha.1
+node_minimum: 24.0.0
+codex_sdk_version: null
+eval_suite_version: 0.1.0-alpha.1-deterministic
+components:
+  VERSION: sha256:ed41d33f787456abe92ea03b820e4c832b1e2b9e6867242eaea03258bae8d119
+  package-lock.json: sha256:d14283e4504c6eb3632e12e03c6e7db35927ebf4b8e8b108ed7f19641020a37a
+  package.json: sha256:29c6426bf4e618bf0714258da974df06a4486bb2351afe1ce1e3aeb88e3e8d90
+  policies/base.yaml: sha256:38a9b08991e1fea3ee842aca2afa145120c0b8e1de64e2729129c7b8a46a0028
+  policies/implement.yaml: sha256:8e4964a1912372de22d4fb66073d1aba486bdfcaa38a746a74cd719191ff0ed4
+  policies/teach.yaml: sha256:06a800e7cd3ccc8eeda3c6b1cf552b5fd9149b3cbd686cb7e368fb52542e01c3
+  profiles/synthetic.json: sha256:3a0fe86b287c50c3c1f466625b730210bf6b96fe3a7cc989570d2a4f1d9bc40f
+  profiles/templates/personal/profile.yaml: sha256:fe5210f60108a980c98b778c4c45f1aa210acc8a6820ceea20de9611b93fd981
+  profiles/templates/personal/sources.yaml: sha256:a77ebbbef1cc1590b39e0bae33e706027b750b21ea1904c8eade33a1b74290e3
+  profiles/templates/work/profile.yaml: sha256:75415905212b5da8ea6f4886d2d557c8a19d75b28d3d5f74b6c59e2f433f809a
+  profiles/templates/work/sources.yaml: sha256:e37c4604c1b0e08db12048b805d586f30d4b348db2a90ca81d1892a3dd54495f
+  schemas/checkpoint.schema.json: sha256:00f061b0fb361c394b35078cdc25618997b3c64f0d6fe9f59f3a589893212b11
+  schemas/evaluation.schema.json: sha256:386217b1eeabd4dbe10197ecce43699ae7bd571686fbd21b16130c6209564360
+  schemas/feedback-proposal.schema.json: sha256:6605f751f4f3123916fcbb05881e3b8b23affc42f1b7ee1591b2e97649393a2f
+  schemas/profile.schema.json: sha256:83bbacf98efd20a357472ef38f3f1c48a3d08f3a05bbd58e1839a93651fe0e63
+  schemas/run-manifest.schema.json: sha256:c8a3d1b82375a33f99f7fefeba5d603fb639450b29e0f96388b3d4d71143f572
+  schemas/source.schema.json: sha256:b3c1dd67b5d9a3722dea8ecc284532e9be5984a0286991422419fbc327b3bfae
+  schemas/task-input.schema.json: sha256:841f135e484c69cb14d76a80fd2d1a12565e7bf9a03839b149243651f1611c5c
+  schemas/task-state.schema.json: sha256:ed17611260f893b833f0ad3211e73c1bf649a4b2b6d7acee1026852b08dc3d51
+  schemas/trace-event.schema.json: sha256:5ae24eefc742ced138486f1beafcbdf0c3fd78f087c26aba9f5e4d781b2c021d
+  src/adapters/mock.ts: sha256:29ec9bc308ff03a54c6b4e2dc017f3cabda307472e288eb8381ed6c14f15586c
+  src/application/workflow.ts: sha256:24baa4a3944d57ea65f46ff16fe1411483cd67e3cfc9b1073834e23d6ceddd7b
+  src/cli/main.ts: sha256:3b9f688f5334b4bc19c10ac3254162cffd78e01f84dd9adc0ee02ebb169dd2c3
+  src/domain/contracts.ts: sha256:89ed77c02dcf7eed458f57168570cec43fd5d7bd495fb7435f47b0f413b66cf9
+  src/domain/policy.ts: sha256:545b5570d6a776fbca5827fdea8b63f5fdd57e373457ec69a8957685fa6c716c
+  src/infrastructure/hashing.ts: sha256:412c3b1d6b374f9448ed544c0b8533e137b8227971c777291e37c04178455b8d
+  src/infrastructure/integrity.ts: sha256:c33ce2a18b9678b937167c455afdf624aadde539bd36907cf95c96ac849dda08
+  src/infrastructure/privacy.ts: sha256:b367db3774b0750f4c002ec6faa43c2c2f9b7d34e3bff9fe7357757f287842d9
+  src/infrastructure/run-store.ts: sha256:4499a50b8021b478c49fbb8478e31817ae258481af5c80601e4c7e4259692636
+  src/infrastructure/validation.ts: sha256:b372b2fa66f3cf20d90ccc79d66d4e908831b6a893b3752ad1cfa4b843b6a91a

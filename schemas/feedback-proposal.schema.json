@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "feedback-proposal",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "proposal_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "approved",
+        "rejected"
+      ]
+    },
+    "evidence_runs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "pattern": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_component": {
+      "type": "string",
+      "minLength": 1
+    },
+    "proposed_change": {
+      "type": "string",
+      "minLength": 1
+    },
+    "expected_effect": {
+      "type": "string",
+      "minLength": 1
+    },
+    "possible_regressions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required_evals": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$"
+      },
+      "minItems": 1
+    },
+    "rejection_reason": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "proposal_id",
+    "status",
+    "evidence_runs",
+    "pattern",
+    "target_component",
+    "proposed_change",
+    "expected_effect",
+    "possible_regressions",
+    "required_evals"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "rejected"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "rejection_reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "rejection_reason"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+schema_version: 1
+id: base
+network: denied
+external_actions: denied
+git_mutations: denied
+automatic_harness_changes: denied
+profile_count: 1
+prompt_content_recorded: false
+tool_content_recorded: false

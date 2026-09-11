@@ -1,0 +1,5 @@
+schema_version: 1
+id: teach
+mode: teach
+source_write: denied
+intended_sandbox: read-only

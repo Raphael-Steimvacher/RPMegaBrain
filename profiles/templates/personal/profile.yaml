@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "id": "personal",
+  "label": "personal — template inativo",
+  "classification": "personal",
+  "defaults": {
+    "mode": "teach",
+    "workflow": "wac",
+    "network": "denied"
+  },
+  "source_allowlist": [
+    "personal.repository"
+  ],
+  "skill_allowlist": [
+    "teacher",
+    "planning",
+    "debugging"
+  ],
+  "telemetry": {
+    "capture_prompt_content": false,
+    "capture_tool_content": false,
+    "raw_retention_days": 30
+  }
+}

@@ -81,3 +81,11 @@ venv/
 
 .vscode/
 .idea/
+
+# MegaBrain: estado operacional nunca entra no nucleo
+.megabrain-state/
+.local/
+traces/
+runs/
+*.jsonl
+*.tsbuildinfo

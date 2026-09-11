@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "trace-event",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "run_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "task_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$"
+    },
+    "producer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "event_name": {
+      "type": "string",
+      "enum": [
+        "run.started",
+        "profile.selected",
+        "policy.composed",
+        "workflow.selected",
+        "task.state_changed",
+        "skill.selected",
+        "context.lookup_started",
+        "context.item_selected",
+        "context.item_rejected",
+        "context.bundle_built",
+        "engine.thread_started",
+        "engine.thread_resumed",
+        "engine.completed",
+        "engine.failed",
+        "engine.cancelled",
+        "tool.started",
+        "tool.completed",
+        "tool.failed",
+        "policy.blocked",
+        "mode.changed",
+        "approval.recorded",
+        "verification.completed",
+        "evaluation.recorded",
+        "feedback.proposed",
+        "feedback.rejected",
+        "run.completed",
+        "run.failed"
+      ]
+    },
+    "phase": {
+      "type": "string",
+      "enum": [
+        "definition",
+        "investigation",
+        "planning",
+        "implementation",
+        "review",
+        "verification",
+        "evaluation"
+      ]
+    },
+    "outcome": {
+      "type": "string",
+      "enum": [
+        "success",
+        "blocked",
+        "failure"
+      ]
+    },
+    "duration_ms": {
+      "type": "number",
+      "minimum": 0
+    },
+    "attributes": {
+      "type": "object",
+      "maxProperties": 20,
+      "additionalProperties": {
+        "type": [
+          "string",
+          "number",
+          "boolean",
+          "null"
+        ]
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "timestamp",
+    "sequence",
+    "run_id",
+    "task_id",
+    "producer",
+    "event_name",
+    "phase",
+    "outcome",
+    "duration_ms",
+    "attributes"
+  ]
+}

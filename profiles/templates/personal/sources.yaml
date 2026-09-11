@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "personal.repository",
+      "adapter": "filesystem",
+      "root_env": "SECOND_BRAIN_ROOT",
+      "access": "read",
+      "sensitivity": "personal",
+      "include": [
+        "**/*.md",
+        "**/*.ts"
+      ],
+      "exclude": [
+        "**/.env*",
+        "**/node_modules/**",
+        "**/.git/**",
+        "**/dist/**"
+      ],
+      "max_item_bytes": 50000
+    }
+  ]
+}

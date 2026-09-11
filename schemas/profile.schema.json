@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "profile",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$"
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "classification": {
+      "type": "string",
+      "enum": [
+        "synthetic",
+        "personal",
+        "work"
+      ]
+    },
+    "defaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "const": "teach"
+        },
+        "workflow": {
+          "const": "wac"
+        },
+        "network": {
+          "const": "denied"
+        }
+      },
+      "required": [
+        "mode",
+        "workflow",
+        "network"
+      ]
+    },
+    "source_allowlist": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$"
+      },
+      "uniqueItems": true
+    },
+    "skill_allowlist": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$"
+      },
+      "uniqueItems": true
+    },
+    "telemetry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "capture_prompt_content": {
+          "const": false
+        },
+        "capture_tool_content": {
+          "const": false
+        },
+        "raw_retention_days": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 30
+        }
+      },
+      "required": [
+        "capture_prompt_content",
+        "capture_tool_content",
+        "raw_retention_days"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "id",
+    "label",
+    "classification",
+    "defaults",
+    "source_allowlist",
+    "skill_allowlist",
+    "telemetry"
+  ]
+}

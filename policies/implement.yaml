@@ -1,0 +1,7 @@
+schema_version: 1
+id: implement
+mode: implement
+source_write: workspace-only
+requires_user_approval: true
+requires_matching_plan_hash: true
+intended_sandbox: workspace-write

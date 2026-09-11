@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "work.colmeia.repository",
+      "adapter": "filesystem",
+      "root_env": "COLMEIA_REPOSITORY_ROOT",
+      "access": "read",
+      "sensitivity": "confidential",
+      "include": [
+        "**/*.md",
+        "**/*.ts"
+      ],
+      "exclude": [
+        "**/.env*",
+        "**/node_modules/**",
+        "**/.git/**",
+        "**/dist/**"
+      ],
+      "max_item_bytes": 50000
+    }
+  ]
+}

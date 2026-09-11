@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "checkpoint",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "storage_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "manifest": {
+      "$ref": "run-manifest"
+    },
+    "task": {
+      "$ref": "task-input"
+    },
+    "profile": {
+      "$ref": "profile"
+    },
+    "state": {
+      "$ref": "task-state"
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "definition": {
+          "type": "string",
+          "maxLength": 100000
+        },
+        "plan": {
+          "type": "string",
+          "maxLength": 100000
+        },
+        "result": {
+          "type": "string",
+          "maxLength": 100000
+        }
+      },
+      "required": [
+        "definition",
+        "plan",
+        "result"
+      ]
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "trace-event"
+      }
+    },
+    "evaluation": {
+      "anyOf": [
+        {
+          "$ref": "evaluation"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "storage_revision",
+    "manifest",
+    "task",
+    "profile",
+    "state",
+    "artifacts",
+    "events",
+    "evaluation"
+  ]
+}

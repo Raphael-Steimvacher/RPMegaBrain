@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "id": "synthetic",
+  "label": "Laboratório sintético",
+  "classification": "synthetic",
+  "defaults": {
+    "mode": "teach",
+    "workflow": "wac",
+    "network": "denied"
+  },
+  "source_allowlist": [],
+  "skill_allowlist": [],
+  "telemetry": {
+    "capture_prompt_content": false,
+    "capture_tool_content": false,
+    "raw_retention_days": 7
+  }
+}
