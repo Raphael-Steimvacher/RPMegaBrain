@@ -56,6 +56,7 @@ export interface CandidateAuthorization {
   authorized_by: 'user';
   authorized_at: string;
   expires_at: string;
+  scope_hash: string | null;
   payload_hash: string;
 }
 

@@ -5,7 +5,7 @@ import addFormats from 'ajv-formats';
 import { DomainError } from '../../domain/policy.js';
 import { coreRoot } from '../validation.js';
 
-export const v5SchemaNames = ['candidate-request', 'candidate-authorization', 'workspace-lease', 'environment-manifest', 'change-plan', 'change-set', 'candidate-snapshot', 'regression-comparison', 'code-review-report', 'impact-report', 'candidate-decision', 'cleanup-receipt', 'run-manifest-v5'] as const;
+export const v5SchemaNames = ['candidate-manifest', 'candidate-request', 'candidate-authorization', 'workspace-lease', 'environment-manifest', 'change-plan', 'change-set', 'candidate-snapshot', 'regression-comparison', 'code-review-report', 'impact-report', 'candidate-decision', 'cleanup-receipt', 'run-manifest-v5'] as const;
 const ajv = new Ajv({ allErrors: true, strict: true }); addFormats.default(ajv);
 for (const name of v5SchemaNames) ajv.addSchema(JSON.parse(readFileSync(join(coreRoot, 'core', 'schemas', 'v5', `${name}.schema.json`), 'utf8')), `v5-${name}`);
 

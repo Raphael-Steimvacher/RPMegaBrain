@@ -58,8 +58,9 @@ components:
   core/schemas/v4/pattern.schema.json: sha256:27b47f3bbf4def6de5faaf937bfeac4f380d521046ca8808c69e6bc747db0de2
   core/schemas/v4/run-manifest-v4.schema.json: sha256:9873e500685c518201a8cca483dab60de33aaf4ab5bd8e2143903150b18b2378
   core/schemas/v4/task-contract.schema.json: sha256:74950c00256413176a57ce76aaaff6b4ac80ac783a83f08ca0d7732e3755c33c
-  core/schemas/v5/candidate-authorization.schema.json: sha256:aba54c522913ae5f872327c1c9b2c9423947cb54dc51e50998c2670e91ca46b1
+  core/schemas/v5/candidate-authorization.schema.json: sha256:3b62e481c211a82781cf49af150273df2bbaa35d53ff472e5e82b50c29bccc1c
   core/schemas/v5/candidate-decision.schema.json: sha256:478163f3768d75bc9e54911d938815c31119ccf992c2dc00ca82062f174aacc4
+  core/schemas/v5/candidate-manifest.schema.json: sha256:e26bb6fb80c6d46d19772512d0d14f7309ed803a0da2c2f246f79d026c4b9a3d
   core/schemas/v5/candidate-request.schema.json: sha256:41dd0afaa560b187382a2ff43c0282d780dcb83dd6aa6beb28de6040be0f47cb
   core/schemas/v5/candidate-snapshot.schema.json: sha256:db6678d4644bfdda165e9033a5d23fa7636e30d7e290d9dfe9f48f06a6aceacf
   core/schemas/v5/change-plan.schema.json: sha256:0d70af405fe59229568db1d3d2a87a01926a6698d243ce2190f7816b5e303eb8
@@ -115,7 +116,7 @@ components:
   src/adapters/integrations/fake-provider.ts: sha256:9d73fa3af7355fe79f689d80ec8c3f0d3b1b319c891469f1175f28c43330d086
   src/adapters/mock.ts: sha256:29ec9bc308ff03a54c6b4e2dc017f3cabda307472e288eb8381ed6c14f15586c
   src/adapters/sqlite/warm-index.ts: sha256:6570b6329e6d8095e3cb39c72d5c6b154cc19466d201021c1e92cc0f4c76f68f
-  src/application/candidates/service.ts: sha256:bb21e6e479f92baffcb18cf9c001fabfb2b076c1231491376b72f3cd0e594c5a
+  src/application/candidates/service.ts: sha256:dcbfae7303605cbdaeb3f5b0a973292fec07948a03c2c479150a5fae2950e1e3
   src/application/context-building/retrieval.ts: sha256:fe1c5793a49e0e93276fcda9f0384b1b29afe960be848d9922b69d7f7209d118
   src/application/continuity/manager.ts: sha256:8cf07a1755565fad4116cf5484db7b9b9931bf29804900fb2e2f76014756527f
   src/application/evaluation/service.ts: sha256:d0725d173630e560293f58e53c7d1c23aebaa8558021c48c414ada42cea8192e
@@ -125,11 +126,11 @@ components:
   src/application/integrations/policy-gateway.ts: sha256:44edaa89f6c70818397aa2656d009559a4821ed217149148d3d6c27072b06a8a
   src/application/integrations/service.ts: sha256:416e18f94655b420fd0f654d74b466a9eefeeca7e9057dff23724f750da8a5d4
   src/application/workflow.ts: sha256:24baa4a3944d57ea65f46ff16fe1411483cd67e3cfc9b1073834e23d6ceddd7b
-  src/cli/main.ts: sha256:f01e03be4e15bf3841d4325c33d1b5a6c4e73fc53705a38ccff00e8a357ce1aa
+  src/cli/main.ts: sha256:672a7fcf28f5d9fe6256dacef5d6b365f266a2ef1d9d7b21be59afc886c432d6
   src/cli/v2.ts: sha256:a5610007541b8444ccf60a30802844d85d72e193e169707387209a8cb2ffcdb9
   src/cli/v3.ts: sha256:ca8561f2971da2afe91232bf31de3ea7868357d989a7663caf486f44ec7e808e
   src/cli/v4.ts: sha256:02db1b1d51e3614d648f76b1be38fe6cbdac8fce5b8592c5f6fe54da60eb9a7e
-  src/cli/v5.ts: sha256:2911d2f1c3e8d04b5ee48316b98dead3a118baf877a507c5075cae7c49e98670
+  src/cli/v5.ts: sha256:01771fb148fec593e0223640e185c7b74e444da0fbfae9c9534fc8d0e8a000b3
   src/domain/contracts.ts: sha256:89ed77c02dcf7eed458f57168570cec43fd5d7bd495fb7435f47b0f413b66cf9
   src/domain/policy.ts: sha256:545b5570d6a776fbca5827fdea8b63f5fdd57e373457ec69a8957685fa6c716c
   src/domain/v2/checkpoint-store.ts: sha256:bb87a91755a23d4b6604e331e4d8416300d788b0038153763df6c2a44b31b95e
@@ -142,7 +143,7 @@ components:
   src/domain/v3/contracts.ts: sha256:bdbe6e2efaaa43310264cfeceebad435161e7e556220af82877f1ccf824b6d8e
   src/domain/v3/ports.ts: sha256:3b39168d7fbca6cd483b1db0dac43c61d7e5b9e9c93c264c3db79da3cba5d2bc
   src/domain/v4/contracts.ts: sha256:f6d741372026ef89e3f67e5eb1fce47831adc410902c3658dfd351a40faa40c6
-  src/domain/v5/contracts.ts: sha256:7cebbcce1c99a782d3595fd47879d35517db9538a183092d9b3baf5820d49d45
+  src/domain/v5/contracts.ts: sha256:2047de07941d53de4772699922ec7596a58af5d9bd6fc1b346550c7ea141b065
   src/infrastructure/hashing.ts: sha256:b98aac0ca3825852c064106f4f52e8f68df677a0c8d53bd0398f19644ef28d60
   src/infrastructure/integrity.ts: sha256:560fcf3d06e15a3754d0383bdd90f4678ef3422f429ab72fc87d15ce9137d2b0
   src/infrastructure/privacy.ts: sha256:b367db3774b0750f4c002ec6faa43c2c2f9b7d34e3bff9fe7357757f287842d9
@@ -155,5 +156,5 @@ components:
   src/infrastructure/v3/events.ts: sha256:58d7b33c04fa82c5eb082a6556133bdca1bd8bfbbdf6b0524419dd9164ba3542
   src/infrastructure/v3/validation.ts: sha256:43cd50d18917c42d6bad3673825254b1d906044f865a3f32912282038c17c433
   src/infrastructure/v4/validation.ts: sha256:d00de0caf26b53f8803c8e8c8c20adf68ff32ac2689ce4b425096545820eea6f
-  src/infrastructure/v5/validation.ts: sha256:0b54c37c191b4b55c832c5c2fdcf8ed6dfd4b454bbc9b1088e0cef62e9e3993f
+  src/infrastructure/v5/validation.ts: sha256:90599f512dd6a5940c453cda18d5ed92c350f4d6c398fb7bb7c3cc1397a45a32
   src/infrastructure/validation.ts: sha256:b372b2fa66f3cf20d90ccc79d66d4e908831b6a893b3752ad1cfa4b843b6a91a

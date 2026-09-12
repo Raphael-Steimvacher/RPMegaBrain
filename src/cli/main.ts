@@ -39,7 +39,8 @@ Uso após npm run build:
   npm start -- candidate authorize CANDIDATE --profile personal --expires-in 2h
   npm start -- candidate create CANDIDATE --profile personal
   npm start -- candidate build CANDIDATE --profile personal --patch-file change.patch --pode-fazer
-  npm start -- candidate freeze CANDIDATE --profile personal
+  npm start -- candidate authorize-freeze CANDIDATE --profile personal --expires-in 30m
+  npm start -- candidate freeze CANDIDATE --profile personal --pode-fazer
   npm start -- candidate eval CANDIDATE --profile personal
   npm start -- candidate review CANDIDATE --profile personal
   npm start -- candidate report CANDIDATE --profile personal

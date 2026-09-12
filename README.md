@@ -20,12 +20,15 @@ npm run demo
 
 Uma Candidate exige Proposal `approved_for_candidate`, profile explícito, repositório local, allowlist de paths e começa em `dry-run`. O modo `supervised` ainda exige autorização separada e `--pode-fazer` na ação de edição. A pipeline nunca oferece fetch, push, merge, rebase, PR, deploy ou escrita no checkout principal.
 
+Os modos `shadow` e `supervised` exigem `bwrap` (Bubblewrap) funcional com namespace de rede. Sem esse isolamento verificável, a pipeline bloqueia antes de criar worktrees; ela não declara network deny apenas por configuração de ambiente.
+
 ```bash
 npm start -- candidate request --profile personal --proposal PROP --repo /repo --paths src/** --mode supervised
 npm start -- candidate authorize CAND --profile personal --expires-in 2h
 npm start -- candidate create CAND --profile personal
 npm start -- candidate build CAND --profile personal --patch-file change.patch --pode-fazer
-npm start -- candidate freeze CAND --profile personal
+npm start -- candidate authorize-freeze CAND --profile personal --expires-in 30m
+npm start -- candidate freeze CAND --profile personal --pode-fazer
 npm start -- candidate eval CAND --profile personal
 npm start -- candidate review CAND --profile personal
 npm start -- candidate report CAND --profile personal

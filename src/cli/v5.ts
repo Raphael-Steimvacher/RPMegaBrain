@@ -31,11 +31,12 @@ export async function handleV5(argv: string[]): Promise<boolean> {
   if (sub === 'request') { allow(args, ['profile', 'state-dir', 'proposal', 'repo', 'paths', 'base', 'mode']); positions(args, 2); const mode = (option(args, 'mode') ?? 'dry-run') as CandidateMode; if (!['disabled', 'dry-run', 'shadow', 'supervised'].includes(mode)) throw new DomainError('INVALID_MODE', 'Modo v0.5 inválido.'); return output(app.request(option(args, 'proposal', true)!, option(args, 'repo', true)!, [option(args, 'paths', true)!], mode, option(args, 'base'))); }
   if (sub === 'plan') { allow(args, ['profile', 'state-dir']); positions(args, 3); return output(app.plan(args.positionals[2]!)); }
   if (sub === 'authorize') { allow(args, ['profile', 'state-dir', 'expires-in']); positions(args, 3); return output(app.authorize(args.positionals[2]!, duration(option(args, 'expires-in', true)!))); }
+  if (sub === 'authorize-freeze') { allow(args, ['profile', 'state-dir', 'expires-in']); positions(args, 3); return output(app.authorizeFreeze(args.positionals[2]!, duration(option(args, 'expires-in', true)!))); }
   if (sub === 'create') { allow(args, ['profile', 'state-dir']); positions(args, 3); return output(app.create(args.positionals[2]!)); }
   if (sub === 'status') { allow(args, ['profile', 'state-dir']); positions(args, 3); return output(app.show(args.positionals[2]!)); }
   if (sub === 'diff' || sub === 'scope-check') { allow(args, ['profile', 'state-dir']); positions(args, 3); return output(app.scope(args.positionals[2]!)); }
   if (sub === 'build') { allow(args, ['profile', 'state-dir', 'pode-fazer', 'patch-file']); positions(args, 3); if (!flag(args, 'pode-fazer')) throw new DomainError('AUTHORIZATION_REQUIRED', 'Use --pode-fazer para editar a candidate.'); return output(app.build(args.positionals[2]!, true, option(args, 'patch-file', true)!)); }
-  if (sub === 'freeze') { allow(args, ['profile', 'state-dir']); positions(args, 3); return output(app.freeze(args.positionals[2]!)); }
+  if (sub === 'freeze') { allow(args, ['profile', 'state-dir', 'pode-fazer']); positions(args, 3); if (!flag(args, 'pode-fazer')) throw new DomainError('AUTHORIZATION_REQUIRED', 'Use --pode-fazer para congelar a candidate.'); return output(app.freeze(args.positionals[2]!, true)); }
   if (sub === 'eval') { allow(args, ['profile', 'state-dir']); positions(args, 3); return output(app.evaluate(args.positionals[2]!)); }
   if (sub === 'review') { allow(args, ['profile', 'state-dir']); positions(args, 3); return output(app.review(args.positionals[2]!)); }
   if (sub === 'report') { allow(args, ['profile', 'state-dir']); positions(args, 3); return output(app.report(args.positionals[2]!)); }
