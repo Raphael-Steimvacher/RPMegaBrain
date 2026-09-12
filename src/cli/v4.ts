@@ -15,7 +15,7 @@ function allow(args: Args, names: string[]): void { for (const name of Object.ke
 function positions(args: Args, amount: number): void { if (args.positionals.length !== amount) throw new DomainError('INVALID_ARGUMENTS', 'Quantidade incorreta de argumentos.'); }
 function structured<T>(path: string): T { const raw = readFileSync(path, 'utf8'); const document = parseDocument(raw, { uniqueKeys: true }); if (document.errors.length) throw new DomainError('INVALID_YAML', 'YAML/JSON inválido.'); return document.toJS({ maxAliasCount: 50 }) as T; }
 function output(value: unknown): void { console.log(JSON.stringify(value, null, 2)); }
-function service(args: Args): EvaluationService { return new EvaluationService(option(args, 'state-dir'), option(args, 'profile') ?? 'personal'); }
+function service(args: Args): EvaluationService { return new EvaluationService(option(args, 'state-dir'), option(args, 'profile', true)!); }
 function isV4(argv: string[]): boolean { const command = argv[0]; if (['contract', 'evidence', 'diagnose', 'pattern', 'proposal', 'feedback', 'grader', 'experiment', 'release'].includes(command ?? '')) return true; if (command === 'eval') return ['run', 'show', 'explain', 'rerun', 'compare', 'suite'].includes(argv[1] ?? ''); if (command === 'trace') return argv[1] === 'normalize'; return false; }
 
 function graderCatalog(): Array<Record<string, unknown>> {
@@ -31,7 +31,7 @@ function graderCatalog(): Array<Record<string, unknown>> {
 
 export async function handleV4(argv: string[]): Promise<boolean> {
   if (!isV4(argv)) return false;
-  const args = parse(argv); const command = args.positionals[0]!; const sub = args.positionals[1]; const app = service(args);
+  const args = parse(argv); const command = args.positionals[0]!; const sub = args.positionals[1];
   if (command === 'grader') {
     if (sub === 'list') { allow(args, ['profile','state-dir']); positions(args, 2); output(graderCatalog()); }
     else if (sub === 'show') { allow(args, ['profile','state-dir']); positions(args, 3); const grader = graderCatalog().find(item => item.grader_id === args.positionals[2]); if (!grader) throw new DomainError('GRADER_NOT_FOUND', 'Grader não encontrado.'); output(grader); }
@@ -40,6 +40,7 @@ export async function handleV4(argv: string[]): Promise<boolean> {
     else if (sub === 'diff') { allow(args, ['profile','state-dir']); positions(args, 4); output({ version_a: args.positionals[2], version_b: args.positionals[3], equivalent: args.positionals[2] === args.positionals[3] }); }
     else throw new DomainError('UNKNOWN_COMMAND', 'Subcomando grader desconhecido.'); return true;
   }
+  const app = service(args);
   if (command === 'contract') {
     if (sub === 'create') { allow(args, ['profile','state-dir','file','task','mode']); positions(args, 2); const input = option(args, 'file') ? structured<ContractDraft>(option(args, 'file')!) : { task_id: option(args, 'task', true)!, profile_id: option(args, 'profile', true)!, mode: (option(args, 'mode') ?? 'teach') as 'teach'|'implement', goal: 'Tarefa explicitada pelo usuário', task_family: 'general', requirements: [{ id: 'R1', statement: 'A entrega atende ao objetivo registrado.' }] }; output(app.createContract(input)); }
     else if (sub === 'show' || sub === 'explain') { allow(args, ['profile','state-dir']); positions(args, 3); output(app.showContract(args.positionals[2]!)); }
@@ -54,7 +55,7 @@ export async function handleV4(argv: string[]): Promise<boolean> {
     else if (sub === 'purge-raw') { allow(args, ['profile','state-dir']); positions(args, 3); output({ run_id: args.positionals[2], purged: false, reason: 'raw trace is never copied into the canonical bundle' }); }
     else throw new DomainError('UNKNOWN_COMMAND', 'Subcomando evidence desconhecido.'); return true;
   }
-  if (command === 'trace') { if (sub !== 'normalize') throw new DomainError('UNKNOWN_COMMAND', 'Use trace normalize --run RUN --contract CONTRACT --file TRACE.'); allow(args, ['profile','state-dir','run','contract','file']); positions(args, 2); const input = structured<EvidenceInput>(option(args, 'file', true)!); output(app.buildEvidence(option(args, 'contract', true)!, { ...input, run_id: option(args, 'run', true)! })); return true; }
+  if (command === 'trace') { if (sub !== 'normalize') throw new DomainError('UNKNOWN_COMMAND', 'Use trace normalize --run RUN --contract CONTRACT --file TRACE.'); allow(args, ['profile','state-dir','run','contract','file']); positions(args, 2); const runId = option(args, 'run', true)!; const input = structured<EvidenceInput>(option(args, 'file', true)!); if (input.run_id !== runId) throw new DomainError('RUN_ID_MISMATCH', 'Trace não corresponde ao run informado.'); output(app.buildEvidence(option(args, 'contract', true)!, input)); return true; }
   if (command === 'experiment') {
     if (sub === 'plan') { allow(args, ['profile','state-dir','proposal']); positions(args, 2); const proposal = app.showProposal(option(args, 'proposal', true)!); output({ schema_version: 1, experiment_id: `exp_${proposal.proposal_id}`, suite_id: 'release-v0.4', baseline: { harness_version: '0.3.0', config_hash: 'provided-at-run' }, candidate: null, controls: { model: 'codex', reasoning: 'same', context_snapshot: 'provided-at-run', source_fixture_snapshot: 'provided-at-run', repetitions: 1 }, status: 'planned', proposal_id: proposal.proposal_id }); }
     else if (sub === 'run') { allow(args, ['profile','state-dir']); positions(args, 3); output({ experiment_id: args.positionals[2], status: 'blocked', reason: 'v0.4 aceita somente targets/snapshots já existentes; nenhum target foi fornecido.' }); }
@@ -67,7 +68,7 @@ export async function handleV4(argv: string[]): Promise<boolean> {
   }
   if (command === 'eval') {
     if (sub === 'suite') { allow(args, ['profile','state-dir']); positions(args, 3); if (args.positionals[2] === 'list') output([{ suite_id: 'evaluator-self-test', type: 'self-test' }, { suite_id: 'smoke-v0.4', type: 'smoke' }, { suite_id: 'release-v0.4', type: 'release' }, { suite_id: 'holdout-v0.4', type: 'holdout' }]); else throw new DomainError('UNKNOWN_COMMAND', 'Use eval suite list.'); return true; }
-    if (sub === 'run' || sub === 'rerun') { allow(args, ['profile','state-dir','run','contract','evidence']); positions(args, 2); const runId = option(args, 'run', true)!; const bundle = option(args, 'evidence') ? app.showBundle(option(args, 'evidence')!) : app.bundles.list().find(item => item.run_id === runId); if (!bundle) throw new DomainError('V4_RECORD_NOT_FOUND', 'Evidence do run não encontrada.'); const contract = option(args, 'contract') ? app.showContract(option(args, 'contract')!) : app.contracts.list().find(item => item.task_id === bundle.task_id && item.status !== 'superseded'); if (!contract) throw new DomainError('V4_RECORD_NOT_FOUND', 'Contrato da task não encontrado.'); output(app.runEvaluation(contract.contract_id, bundle.bundle_id)); }
+    if (sub === 'run' || sub === 'rerun') { allow(args, ['profile','state-dir','run','contract','evidence']); positions(args, 2); const runId = option(args, 'run', true)!; const bundle = option(args, 'evidence') ? app.showBundle(option(args, 'evidence')!) : app.bundles.list().find(item => item.run_id === runId); if (!bundle) throw new DomainError('V4_RECORD_NOT_FOUND', 'Evidence do run não encontrada.'); const matches = app.contracts.list().filter(item => item.task_id === bundle.task_id && item.status !== 'superseded').sort((a, b) => b.contract_version - a.contract_version || a.contract_id.localeCompare(b.contract_id)); const contract = option(args, 'contract') ? app.showContract(option(args, 'contract')!) : matches.length === 1 ? matches[0] : undefined; if (!contract) throw new DomainError('CONTRACT_AMBIGUOUS', 'Informe --contract quando houver mais de um contrato compatível.'); output(app.runEvaluation(contract.contract_id, bundle.bundle_id)); }
     else if (sub === 'show' || sub === 'explain') { allow(args, ['profile','state-dir']); positions(args, 3); output(app.showEvaluation(args.positionals[2]!)); }
     else if (sub === 'compare') { allow(args, ['profile','state-dir']); positions(args, 4); const a = app.showEvaluation(args.positionals[2]!); const b = app.showEvaluation(args.positionals[3]!); output({ baseline: a.status, candidate: b.status, hard_gate_delta: b.hard_gates.failed - a.hard_gates.failed, mandatory_delta: b.requirements.mandatory.passed - a.requirements.mandatory.passed, decision: b.status === 'FAIL' && a.status !== 'FAIL' ? 'reject' : 'review' }); }
     return true;

@@ -8,6 +8,7 @@ import { assertIdentifier, ensurePrivateDirectory } from '../../../infrastructur
 import { defaultStateRoot } from '../../../infrastructure/run-store.js';
 import { DomainError } from '../../../domain/policy.js';
 import { coreRoot } from '../../../infrastructure/validation.js';
+import { stableJson } from '../../../infrastructure/hashing.js';
 
 export class V4Store<T extends object> {
   readonly root: string;
@@ -17,7 +18,15 @@ export class V4Store<T extends object> {
     ensurePrivateDirectory(this.root);
   }
   path(id: string): string { assertIdentifier(id, `${this.kind}_id`); return join(this.root, `${id}.yaml`); }
-  put(value: T, id: string): T { const path = this.path(id); if (existsSync(path)) throw new DomainError('IMMUTABLE_RECORD', 'Registro v0.4 é imutável; crie uma nova versão.'); atomicWrite(path, stringify(value)); return value; }
+  put(value: T, id: string): T {
+    const path = this.path(id);
+    if (existsSync(path)) {
+      const existing = parse(readFileSync(path, 'utf8')) as T;
+      if (stableJson(existing) === stableJson(value)) return existing;
+      throw new DomainError('IMMUTABLE_RECORD', 'Registro v0.4 é imutável; crie uma nova versão.');
+    }
+    atomicWrite(path, stringify(value)); return value;
+  }
   replace(value: T, id: string): T { atomicWrite(this.path(id), stringify(value)); return value; }
   get(id: string): T { try { return parse(readFileSync(this.path(id), 'utf8')) as T; } catch { throw new DomainError('V4_RECORD_NOT_FOUND', 'Registro v0.4 não encontrado.'); } }
   list(): T[] { if (!existsSync(this.root)) return []; return readdirSync(this.root).filter(name => name.endsWith('.yaml')).sort().map(name => parse(readFileSync(join(this.root, name), 'utf8')) as T); }

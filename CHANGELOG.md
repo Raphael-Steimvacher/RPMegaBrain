@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.0 — 2026-09-12
+
+- Controlled Candidate Pipeline: intake de Proposal aprovada, autorização escopada, base SHA e worktrees baseline/candidate fora do checkout principal.
+- Change Plan, Scope Guard com untracked/symlink/binário/lockfile/budget, snapshot local, comparação baseline/candidate, review read-only, Impact Report e decisão humana hash-bound.
+- Operações remotas, merge, rebase, push, PR, deploy e cleanup force permanecem fora das capacidades.
+- Correções críticas da v0.4: avaliação determinística/idempotente, plano persistido antes dos graders, prova estrutural para `PASS`, hard gates declarados, contratos congelados imutáveis e seleção explícita de profile/contrato.
+
 ## 0.3.0-alpha.1 — 2026-09-11
 
 - Connector Registry por perfil, lifecycle, identidade/tenant/scopes e secret refs opacos.

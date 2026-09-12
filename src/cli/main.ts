@@ -8,8 +8,9 @@ import { parseFile } from '../infrastructure/validation.js';
 import { handleV2 } from './v2.js';
 import { handleV3 } from './v3.js';
 import { handleV4 } from './v4.js';
+import { handleV5 } from './v5.js';
 
-const help = `MegaBrain 0.4.0 — avaliação local-first; model grader desativado por padrão\n
+const help = `MegaBrain 0.5.0 — pipeline de candidates local-first; model grader desativado por padrão\n
 Uso após npm run build:
   npm start -- connector list --profile personal
   npm start -- connector add fake --profile personal --file connector.yaml
@@ -33,6 +34,17 @@ Uso após npm run build:
   npm start -- diagnose run --profile personal --evaluation EVAL
   npm start -- pattern scan --profile personal
   npm start -- proposal list --profile personal
+  npm start -- candidate request --profile personal --proposal PROP --repo <path> --paths src/** --mode supervised
+  npm start -- candidate plan CANDIDATE --profile personal
+  npm start -- candidate authorize CANDIDATE --profile personal --expires-in 2h
+  npm start -- candidate create CANDIDATE --profile personal
+  npm start -- candidate build CANDIDATE --profile personal --patch-file change.patch --pode-fazer
+  npm start -- candidate freeze CANDIDATE --profile personal
+  npm start -- candidate eval CANDIDATE --profile personal
+  npm start -- candidate review CANDIDATE --profile personal
+  npm start -- candidate report CANDIDATE --profile personal
+  npm start -- candidate accept CANDIDATE --profile personal --report-hash HASH
+  npm start -- candidate cleanup CANDIDATE --profile personal --confirm
 
 Opções comuns: --state-dir <diretório-fora-do-git>, --json, --help.
 Engine único: --engine mock. Teach é o padrão, inclusive na retomada.
@@ -51,6 +63,7 @@ function display(cp: Checkpoint, json: boolean): void {
   console.log(`\n${cp.artifacts.result}`);
 }
 async function main(): Promise<void> {
+  if (await handleV5(process.argv.slice(2))) return;
   if (await handleV4(process.argv.slice(2))) return;
   if (await handleV3(process.argv.slice(2))) return;
   if (await handleV2(process.argv.slice(2))) return;

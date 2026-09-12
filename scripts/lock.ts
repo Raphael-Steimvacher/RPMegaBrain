@@ -8,8 +8,8 @@ import { integrationPolicyHash } from '../src/application/integrations/policy-ga
 import { capabilityCatalog } from '../src/domain/v3/catalog.js';
 const pkg = JSON.parse(readFileSync(join(coreRoot, 'package.json'), 'utf8'));
 const value = { schema_version: 1, runtime_version: pkg.version, node_minimum: '24.0.0', codex_sdk_version: null,
-  eval_suite_version: '0.3.0-deterministic', checkpoint_schema_version: 1, memory_schema_version: 1,
-  retrieval_schema_version: 1, telemetry_schema_version: 3, integration_schema_version: 1,
+  eval_suite_version: '0.5.0-deterministic', checkpoint_schema_version: 1, memory_schema_version: 1,
+  retrieval_schema_version: 1, telemetry_schema_version: 4, integration_schema_version: 1,
   connector_registry_schema_version: 1, capability_schema_version: 1, consent_schema_version: 1,
   external_ref_schema_version: 1, components: componentHashes(coreRoot) };
 const path = join(coreRoot, 'megabrain.lock.yaml');

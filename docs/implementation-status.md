@@ -1,8 +1,19 @@
 # Estado da implementação
 
-Data: 12/09/2026. Versão: 0.4.0.
+Data: 12/09/2026. Versão: 0.5.0.
 
-O blueprint v0.4 é a referência vigente. Esta entrega implementa o loop local e determinístico de avaliação; não declara conexão real com providers, Codex/MCP, sandbox do agente ou qualidade de resposta de modelo.
+O blueprint v0.5 está implementado como pipeline local controlado sobre a v0.4. O fluxo mantém o checkout principal intocado, usa estado fora do Git, não fornece operações remotas e não declara sandbox completa, integração Codex/MCP ou execução de modelo real.
+
+| Marco v0.5 | Estado | Evidência |
+|---|---|---|
+| Intake e autorização | Implementado | `src/application/candidates/service.ts`, Proposal aprovada, base SHA, expiração e `--pode-fazer` |
+| Workspaces e ambiente | Núcleo implementado | baseline/candidate worktrees, branch sem upstream, lock, manifest de ambiente e bloqueio de submodules |
+| Change Plan e Scope Guard | Implementado | allowlist, untracked, renames, budget, symlink, binário, paths sensíveis e lockfiles |
+| Snapshot e comparação | Núcleo implementado | commit local, tree/hash, execução baseline/candidate e classificação de regressão |
+| Review, Impact Report e decisão | Implementado | review read-only, report hash-bound, decisões append-only e ausência de merge/push |
+| Cleanup e recovery | Núcleo implementado | remoção exata sem force, branch preservada e receipt |
+
+O blueprint v0.5 é a referência vigente. Esta entrega implementa o loop local e controlado de avaliação/candidate; não declara conexão real com providers, Codex/MCP, sandbox completa do agente ou qualidade de resposta de modelo.
 
 | Marco v0.4 | Estado | Evidência |
 |---|---|---|

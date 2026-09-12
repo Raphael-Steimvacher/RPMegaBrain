@@ -1,8 +1,8 @@
 # RPMegaBrain
 
-Harness pessoal local ao redor do Codex, orientado pelo blueprint v0.4.
+Harness pessoal local ao redor do Codex, orientado pelo blueprint v0.5.
 
-**Versão atual: `0.4.0`.** A v0.4 adiciona avaliação local-first sobre o núcleo v0.3: Task Contracts, Evidence Bundles redigidos, graders determinísticos, diagnóstico como hipótese, patterns e Improvement Proposals sem aplicação automática. Providers reais continuam desligados e o model grader permanece desativado por padrão.
+**Versão atual: `0.5.0`.** A v0.5 adiciona o Controlled Candidate Pipeline sobre o núcleo v0.4: intake de Proposal aprovada, autorização escopada, base SHA, worktrees baseline/candidate, Scope Guard, snapshot local, comparação, review, Impact Report e decisão humana sem merge/push. Providers reais continuam desligados e o model grader permanece desativado por padrão.
 
 ## Validar
 
@@ -14,7 +14,24 @@ npm run check
 npm run demo
 ```
 
-`npm run check` compila TypeScript estrito, executa os testes v0.1–v0.4, valida schemas, fixtures, taxonomia e skill, e confere os dois locks. Todos os dados de estado são gravados fora do Git em `--state-dir`, `MEGABRAIN_STATE_HOME` ou no diretório de estado do sistema.
+`npm run check` compila TypeScript estrito, executa os testes v0.1–v0.5, valida schemas, fixtures, taxonomia e skill, e confere os dois locks. Todos os dados de estado são gravados fora do Git em `--state-dir`, `MEGABRAIN_STATE_HOME` ou no diretório de estado do sistema.
+
+## Candidate Pipeline v0.5
+
+Uma Candidate exige Proposal `approved_for_candidate`, profile explícito, repositório local, allowlist de paths e começa em `dry-run`. O modo `supervised` ainda exige autorização separada e `--pode-fazer` na ação de edição. A pipeline nunca oferece fetch, push, merge, rebase, PR, deploy ou escrita no checkout principal.
+
+```bash
+npm start -- candidate request --profile personal --proposal PROP --repo /repo --paths src/** --mode supervised
+npm start -- candidate authorize CAND --profile personal --expires-in 2h
+npm start -- candidate create CAND --profile personal
+npm start -- candidate build CAND --profile personal --patch-file change.patch --pode-fazer
+npm start -- candidate freeze CAND --profile personal
+npm start -- candidate eval CAND --profile personal
+npm start -- candidate review CAND --profile personal
+npm start -- candidate report CAND --profile personal
+```
+
+Aceitação significa somente `AcceptedForManualIntegration`; a integração continua sendo uma operação humana fora deste pipeline.
 
 ## Avaliação v0.4
 
