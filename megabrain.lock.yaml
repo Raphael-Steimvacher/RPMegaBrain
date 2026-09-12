@@ -1,5 +1,5 @@
 schema_version: 1
-runtime_version: 0.3.0-alpha.1
+runtime_version: 0.4.0
 node_minimum: 24.0.0
 codex_sdk_version: null
 eval_suite_version: 0.3.0-deterministic
@@ -15,7 +15,7 @@ external_ref_schema_version: 1
 components:
   .agents/skills/memory-curator/SKILL.md: sha256:eb3b93fb629e27e8a225b1e79b09e8c5c8725449ea8de4616d3d47cf33b4a6fa
   .agents/skills/memory-curator/agents/openai.yaml: sha256:5b062f7ec703ce4e43961af835a41e6ff4e6c2fb1d5a845fddbfe8523b976a72
-  VERSION: sha256:76f23efa552aa54e34df43b78e1cc0d994f90999a41b81e402cf6b628b540559
+  VERSION: sha256:40b8eb4000a913a7791090535f291d3d369874162a89ef3c9e3d4e887a1b9e79
   core/catalogs/drive.yaml: sha256:ceda4824a5b1c18098540b2536ef5d1b14c71510056b847bdeb51ac11d86351e
   core/catalogs/issue-tracker.yaml: sha256:965fc5b5c4128796cd48b0fdb58c5e957f05742cbc0a94fb87bd02258eb546ca
   core/catalogs/mail.yaml: sha256:77e0266b418a64474a36559be6b57cf610bbd0b1244c90384d1a4a142f860a30
@@ -47,14 +47,26 @@ components:
   core/schemas/run-manifest-v2.schema.json: sha256:08cc538c11121b1ad0e6976df7006b428af4b405fda2bdb785943bf16ec4337a
   core/schemas/source-registry.schema.json: sha256:f0b0d8a1aa6dd4ec142a15ca4827816a6edaab3fdbc4e2332a58b64707414da0
   core/schemas/tool-catalog.schema.json: sha256:e212fcc99c727777156490aa51aee866ff949ed5b5ac759310b2070d986fe71a
+  core/schemas/v4/diagnosis.schema.json: sha256:a54b009fab54235d1c7e951bb9a5ff066883d6f945b3bdcc30c4a10d498ca568
+  core/schemas/v4/evaluation-plan.schema.json: sha256:fc5ac706da91667d8294ad53579e3ffba8e923586392b5f06ba7d3900f931beb
+  core/schemas/v4/evaluation-result.schema.json: sha256:1401a674668a45d068780faaf45ade5b5009ff530091dbc90d5f76505b81d53b
+  core/schemas/v4/evidence-bundle.schema.json: sha256:f7371fef1302d3ea34eee24936603dcd6fac54a827073865574640433b85070f
+  core/schemas/v4/experiment-manifest.schema.json: sha256:f88b425dbfcfc322a944661826af990c7a199df9cdb008e0df49367532d61a8e
+  core/schemas/v4/grader-contract.schema.json: sha256:e3234506a45239360f8e44d3ab9ecc208066ebf9b78d3772b4ca5d5576914d55
+  core/schemas/v4/grader-result.schema.json: sha256:dfc1ed26b5ff2175cb34c50f5a97f725ac591a982f7307176b75699fe678053b
+  core/schemas/v4/improvement-proposal.schema.json: sha256:6e3846b16a9c3eb27535bbf08cfe371469067f1bcc6d0f0e7a23fd1d96c9efff
+  core/schemas/v4/pattern.schema.json: sha256:27b47f3bbf4def6de5faaf937bfeac4f380d521046ca8808c69e6bc747db0de2
+  core/schemas/v4/run-manifest-v4.schema.json: sha256:9873e500685c518201a8cca483dab60de33aaf4ab5bd8e2143903150b18b2378
+  core/schemas/v4/task-contract.schema.json: sha256:74950c00256413176a57ce76aaaff6b4ac80ac783a83f08ca0d7732e3755c33c
+  core/taxonomy/failures-v1.yaml: sha256:bae88ca3646d6ba2b7cf7a766279625992b4a8c573017726ce7a6e0cf845af41
   core/templates/managed-codex-memory.toml: sha256:40a3deb99d42d2434569ee27c94ed52831cf260a418ccd5e77e18226cc1c9105
   core/templates/sources.personal.example.yaml: sha256:a81de22e35d3a350d1a94507a9c9b59db140d677dda6b76e3ff3d9ae37513fba
   core/templates/sources.work.example.yaml: sha256:6a3bab1c8ab5d6a1f557d102c19e106a3ff7f1ab6d9a61c183d8d0546cb19b94
   evals/cases/initial.json: sha256:a5a1f2fe05cf94aa237c7ed7dfe1e26a3f083c40350e770fabe1fb5e85330b6b
   evals/cases/v0.2/catalog.json: sha256:9a6ff908830800d274c482ad8d4bb65bac5c78f972fcd08f80507d4b8441b6f3
   evals/cases/v0.3/catalog.json: sha256:b60d9440b56e666e448fe8898c2766e3b1b8340d139828d85a3050b90b477f89
-  package-lock.json: sha256:341407d585f0f17ce69c0931694307bc723576bb292e10147cfb551747e7088c
-  package.json: sha256:eea50068fe02dddad9ce5566d31d89db4a8bfd7a3c29920c29e3ae7b68b4bc8b
+  package-lock.json: sha256:f75b0fd248150a9bddbdca3730ea12e4332210680dae915fddc94fd24b1e0b33
+  package.json: sha256:cef713a19d3854f3381267656cd470ef8ef60ddfe54ffdfa24902a437d203a9f
   policies/base.yaml: sha256:38a9b08991e1fea3ee842aca2afa145120c0b8e1de64e2729129c7b8a46a0028
   policies/implement.yaml: sha256:8e4964a1912372de22d4fb66073d1aba486bdfcaa38a746a74cd719191ff0ed4
   policies/teach.yaml: sha256:06a800e7cd3ccc8eeda3c6b1cf552b5fd9149b3cbd686cb7e368fb52542e01c3
@@ -85,21 +97,24 @@ components:
   src/adapters/filesystem/v3/external-ref-store.ts: sha256:fd775bd68c39c49c4e1412b976151ab82bd86221c3e88ef880c1dd2c74b436d6
   src/adapters/filesystem/v3/integration-manifest-store.ts: sha256:e8815d3b71a946319580502c9cde4facd36dfaaa2172f4957c2238a5b80d09a8
   src/adapters/filesystem/v3/policy-decision-store.ts: sha256:7f3f121468d675e1c4a42a16e2957409de9c8693b1a35351143367d6154bc81f
+  src/adapters/filesystem/v4/store.ts: sha256:4ee2e6eed64f72e1b1c9b3e8a229d405b7568df0d9ce60d299280309eac0508e
   src/adapters/filesystem/warm-memory-store.ts: sha256:e58447302f8ec2be98747a5ff3a0e25290669d7d592993a85fe16ea88baaf757
   src/adapters/integrations/fake-provider.ts: sha256:9d73fa3af7355fe79f689d80ec8c3f0d3b1b319c891469f1175f28c43330d086
   src/adapters/mock.ts: sha256:29ec9bc308ff03a54c6b4e2dc017f3cabda307472e288eb8381ed6c14f15586c
   src/adapters/sqlite/warm-index.ts: sha256:6570b6329e6d8095e3cb39c72d5c6b154cc19466d201021c1e92cc0f4c76f68f
   src/application/context-building/retrieval.ts: sha256:fe1c5793a49e0e93276fcda9f0384b1b29afe960be848d9922b69d7f7209d118
   src/application/continuity/manager.ts: sha256:8cf07a1755565fad4116cf5484db7b9b9931bf29804900fb2e2f76014756527f
+  src/application/evaluation/service.ts: sha256:46dd639f1c76f679acec27b2f195800efa13747662c8f8c7c194fcf0a1da1bef
   src/application/integrations/credential-boundary.ts: sha256:d2ee5af03f19e85f902ad41857a987e54a966ed54b5466e51a642237984b88f2
   src/application/integrations/output-guard.ts: sha256:f08b6093be2538277c69d64fffbebe55738eab73544af9580a54675645ed8969
   src/application/integrations/planner.ts: sha256:b6875a0d83330ed947ce2a291bb95b3e4a1fb6a547841e0a0ada09d2f52f7c0c
   src/application/integrations/policy-gateway.ts: sha256:44edaa89f6c70818397aa2656d009559a4821ed217149148d3d6c27072b06a8a
   src/application/integrations/service.ts: sha256:416e18f94655b420fd0f654d74b466a9eefeeca7e9057dff23724f750da8a5d4
   src/application/workflow.ts: sha256:24baa4a3944d57ea65f46ff16fe1411483cd67e3cfc9b1073834e23d6ceddd7b
-  src/cli/main.ts: sha256:458c79a9a306537ac6869d367212c4fcefbbe3e3491358140a1ac9b5cb042c98
+  src/cli/main.ts: sha256:fb7dab3dee6be9b0523d2aee575984aadc9ccdfe6076d6a88789282f8f74cb49
   src/cli/v2.ts: sha256:a5610007541b8444ccf60a30802844d85d72e193e169707387209a8cb2ffcdb9
   src/cli/v3.ts: sha256:ca8561f2971da2afe91232bf31de3ea7868357d989a7663caf486f44ec7e808e
+  src/cli/v4.ts: sha256:8207a0b0da262680ed409fe64acb6e1903ba0fc94deb031ff3fe51d78cc5df0b
   src/domain/contracts.ts: sha256:89ed77c02dcf7eed458f57168570cec43fd5d7bd495fb7435f47b0f413b66cf9
   src/domain/policy.ts: sha256:545b5570d6a776fbca5827fdea8b63f5fdd57e373457ec69a8957685fa6c716c
   src/domain/v2/checkpoint-store.ts: sha256:bb87a91755a23d4b6604e331e4d8416300d788b0038153763df6c2a44b31b95e
@@ -111,6 +126,7 @@ components:
   src/domain/v3/catalog.ts: sha256:cb6827b412c7e878fae8fbfbe9c32f0d9c273a183e842e4d6acf89d4429a46d1
   src/domain/v3/contracts.ts: sha256:bdbe6e2efaaa43310264cfeceebad435161e7e556220af82877f1ccf824b6d8e
   src/domain/v3/ports.ts: sha256:3b39168d7fbca6cd483b1db0dac43c61d7e5b9e9c93c264c3db79da3cba5d2bc
+  src/domain/v4/contracts.ts: sha256:f6d741372026ef89e3f67e5eb1fce47831adc410902c3658dfd351a40faa40c6
   src/infrastructure/hashing.ts: sha256:b98aac0ca3825852c064106f4f52e8f68df677a0c8d53bd0398f19644ef28d60
   src/infrastructure/integrity.ts: sha256:560fcf3d06e15a3754d0383bdd90f4678ef3422f429ab72fc87d15ce9137d2b0
   src/infrastructure/privacy.ts: sha256:b367db3774b0750f4c002ec6faa43c2c2f9b7d34e3bff9fe7357757f287842d9
@@ -122,4 +138,5 @@ components:
   src/infrastructure/v2/validation.ts: sha256:a5861d310dffb550f7dba4d531067cff39322e3e015c58075cd1a4c7105466a8
   src/infrastructure/v3/events.ts: sha256:58d7b33c04fa82c5eb082a6556133bdca1bd8bfbbdf6b0524419dd9164ba3542
   src/infrastructure/v3/validation.ts: sha256:43cd50d18917c42d6bad3673825254b1d906044f865a3f32912282038c17c433
+  src/infrastructure/v4/validation.ts: sha256:d00de0caf26b53f8803c8e8c8c20adf68ff32ac2689ce4b425096545820eea6f
   src/infrastructure/validation.ts: sha256:b372b2fa66f3cf20d90ccc79d66d4e908831b6a893b3752ad1cfa4b843b6a91a

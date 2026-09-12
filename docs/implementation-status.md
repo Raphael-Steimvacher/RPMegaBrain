@@ -1,8 +1,22 @@
 # Estado da implementação
 
-Data: 11/09/2026. Versão: 0.3.0-alpha.1.
+Data: 12/09/2026. Versão: 0.4.0.
 
-O blueprint v0.3 é a referência vigente. Esta entrega implementa o núcleo local e determinístico do gateway de integrações; não declara conexão real com providers, Codex/MCP, sandbox do agente ou qualidade de resposta de modelo.
+O blueprint v0.4 é a referência vigente. Esta entrega implementa o loop local e determinístico de avaliação; não declara conexão real com providers, Codex/MCP, sandbox do agente ou qualidade de resposta de modelo.
+
+| Marco v0.4 | Estado | Evidência |
+|---|---|---|
+| 0 — schemas, taxonomia e compatibilidade | Implementado | `core/schemas/v4/`, `core/taxonomy/failures-v1.yaml`, validação estrita |
+| 1 — Task Contract | Implementado | builder, freeze por hash, revisão versionada e `post_hoc` |
+| 2 — Evidence Bundle | Implementado | normalização de eventos, redaction, gaps, hash e isolamento por profile |
+| 3 — Deterministic Evaluators | Implementado | integridade, profile/policy, validade de verificações, cobertura e agregação hard-first |
+| 4 — feedback humano | Núcleo implementado | annotations, correção/aceite/discordância persistidos por profile |
+| 5 — model grader | Desativado por padrão | catálogo/contratos preparados; nenhuma chamada de modelo é necessária |
+| 6 — Trace Analyzer | Núcleo implementado | primeira divergência observável, hipóteses, contraevidência, UNKNOWN e próxima evidência |
+| 7 — Pattern Miner | Núcleo implementado | fingerprint, independência por task, threshold 3 e caminho urgente |
+| 8 — Improvement Proposals | Núcleo implementado | alvo único, regressões, rollback, revisão humana e ausência de `apply` |
+| 9 — suites/experimentos | Esqueleto local | suites declaradas, comparação de avaliações e plano sem candidate automático |
+| 10 — hardening | Em evolução | testes sintéticos v0.4 passam; calibração humana/model grader, OTel e casos holdout reais pendentes |
 
 | Marco v0.3 | Estado | Evidência |
 |---|---|---|

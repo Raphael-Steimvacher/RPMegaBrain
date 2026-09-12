@@ -1,0 +1,20 @@
+run_id: RUN-V4-SYNTHETIC
+task_id: TASK-V4-SYNTHETIC
+profile_id: personal
+harness_version: 0.4.0
+config_hash: sha256:fixture
+events:
+  - event_name: verification.completed
+    outcome: success
+    timestamp: '2026-09-11T10:00:00.000Z'
+verification:
+  - verification_id: verify-fixture
+    kind: test
+    status: passed
+    requirement_ids: [R1]
+    valid_for: [R1]
+    artifact_refs: []
+    command_hash: null
+    exit_code: 0
+    started_at: '2026-09-11T10:00:00.000Z'
+    completed_at: '2026-09-11T10:00:00.000Z'

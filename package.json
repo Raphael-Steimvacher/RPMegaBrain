@@ -1,9 +1,9 @@
 {
   "name": "rpmegabrain",
-  "version": "0.3.0-alpha.1",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
-  "description": "Harness pessoal local com continuidade, memória governada e gateway de integrações externas.",
+  "description": "Harness local com continuidade, memória governada, integrações controladas e avaliação determinística.",
   "engines": { "node": ">=24.0.0" },
   "bin": { "megabrain": "dist/src/cli/main.js" },
   "scripts": {

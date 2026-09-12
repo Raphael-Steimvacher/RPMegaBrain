@@ -1,8 +1,8 @@
 # RPMegaBrain
 
-Harness pessoal local ao redor do Codex, orientado pelo blueprint v0.3.
+Harness pessoal local ao redor do Codex, orientado pelo blueprint v0.4.
 
-**Versão atual: `0.3.0-alpha.1`.** A v0.3-alpha adiciona o Permission Gateway e o runtime offline de integrações sobre o núcleo v0.2. Providers reais continuam desligados: esta entrega valida contratos, policy, consentimento, proveniência e falhas com adapters falsos determinísticos, sem alegar acesso real a contas ou enforcement do host Codex.
+**Versão atual: `0.4.0`.** A v0.4 adiciona avaliação local-first sobre o núcleo v0.3: Task Contracts, Evidence Bundles redigidos, graders determinísticos, diagnóstico como hipótese, patterns e Improvement Proposals sem aplicação automática. Providers reais continuam desligados e o model grader permanece desativado por padrão.
 
 ## Validar
 
@@ -14,7 +14,24 @@ npm run check
 npm run demo
 ```
 
-`npm run check` compila TypeScript estrito, executa 72 testes, valida schemas, fixtures, catálogos e skill, e confere os dois locks. Todos os dados de estado são gravados fora do Git em `--state-dir`, `MEGABRAIN_STATE_HOME` ou no diretório de estado do sistema.
+`npm run check` compila TypeScript estrito, executa os testes v0.1–v0.4, valida schemas, fixtures, taxonomia e skill, e confere os dois locks. Todos os dados de estado são gravados fora do Git em `--state-dir`, `MEGABRAIN_STATE_HOME` ou no diretório de estado do sistema.
+
+## Avaliação v0.4
+
+O fluxo v0.4 congela o contrato antes da avaliação, normaliza apenas metadados de trace, aplica hard gates antes de qualquer score e mantém segurança independente de feedback subjetivo:
+
+```sh
+npm start -- contract create --profile personal --file evals/fixtures/v4-contract.yaml
+npm start -- contract freeze CONTRACT_ID --profile personal
+npm start -- evidence build --profile personal --run RUN-V4-SYNTHETIC --contract CONTRACT_ID --file evals/fixtures/v4-evidence.yaml
+npm start -- eval run --profile personal --run RUN-V4-SYNTHETIC
+npm start -- eval explain EVALUATION_ID --profile personal
+npm start -- diagnose run --profile personal --evaluation EVALUATION_ID
+npm start -- pattern scan --profile personal
+npm start -- proposal list --profile personal
+```
+
+`PASS` só ocorre quando os hard gates e requisitos obrigatórios passam. Ausência de prova produz `INCONCLUSIVE`; retries da mesma task não confirmam pattern. Proposals são drafts/revisões e `approve-for-candidate` não edita arquivos, cria branch, commit ou PR. O Evidence Bundle não guarda prompt bruto, transcript, scratchpad, segredo ou chain-of-thought.
 
 ## Integrações v0.3
 

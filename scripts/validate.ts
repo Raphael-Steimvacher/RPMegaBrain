@@ -5,6 +5,7 @@ import { hash, stableJson } from '../src/infrastructure/hashing.js';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { parseDocument } from 'yaml';
+import { existsSync } from 'node:fs';
 const documents: [string, string][] = [
   ['profiles/synthetic.json', 'profile'],
   ['profiles/templates/work/profile.yaml', 'profile'],
@@ -32,6 +33,11 @@ const catalog = JSON.parse(readFileSync(join(coreRoot, 'evals/cases/v0.2/catalog
 if (!Array.isArray(catalog.cases) || catalog.cases.length !== 24) throw new Error('Catálogo v0.2 deve conter os 24 casos normativos.');
 const catalogV3 = JSON.parse(readFileSync(join(coreRoot, 'evals/cases/v0.3/catalog.json'), 'utf8')) as { cases?: { id?: string }[] };
 if (!Array.isArray(catalogV3.cases) || catalogV3.cases.length !== 37 || new Set(catalogV3.cases.map(item => item.id)).size !== 37) throw new Error('Catálogo v0.3 deve conter os 37 casos normativos sem IDs duplicados.');
+const v4Schemas = ['task-contract', 'evidence-bundle', 'grader-contract', 'grader-result', 'evaluation-plan', 'evaluation-result', 'diagnosis', 'pattern', 'improvement-proposal', 'experiment-manifest', 'run-manifest-v4'];
+for (const name of v4Schemas) if (!existsSync(join(coreRoot, 'core/schemas/v4', `${name}.schema.json`))) throw new Error(`Schema v0.4 ausente: ${name}.`);
+const taxonomy = parseDocument(readFileSync(join(coreRoot, 'core/taxonomy/failures-v1.yaml'), 'utf8'), { uniqueKeys: true });
+const taxonomyValue = taxonomy.toJS() as { schema_version?: number; codes?: unknown[] };
+if (taxonomy.errors.length || taxonomyValue.schema_version !== 1 || !Array.isArray(taxonomyValue.codes)) throw new Error('Taxonomia v0.4 inválida.');
 const skillRaw = readFileSync(join(coreRoot, '.agents/skills/memory-curator/SKILL.md'), 'utf8');
 const frontmatterEnd = skillRaw.indexOf('\n---\n', 4);
 if (!skillRaw.startsWith('---\n') || frontmatterEnd < 0) throw new Error('SKILL.md sem front matter válido.');
@@ -39,4 +45,4 @@ const skillMeta = parseDocument(skillRaw.slice(4, frontmatterEnd), { uniqueKeys:
 if (skillMeta.errors.length || !skillMeta.get('name') || !skillMeta.get('description')) throw new Error('Metadados da skill inválidos.');
 const skillUi = parseDocument(readFileSync(join(coreRoot, '.agents/skills/memory-curator/agents/openai.yaml'), 'utf8'), { uniqueKeys: true });
 if (skillUi.errors.length || skillUi.getIn(['policy','allow_implicit_invocation']) !== false) throw new Error('memory-curator deve ser explicit-only.');
-console.log(`${documents.length + v2Documents.length + 2} documentos, 24 casos v0.2, 37 casos v0.3 e skill memory-curator válidos.`);
+console.log(`${documents.length + v2Documents.length + 2} documentos, 24 casos v0.2, 37 casos v0.3, schemas v0.4 e skill memory-curator válidos.`);

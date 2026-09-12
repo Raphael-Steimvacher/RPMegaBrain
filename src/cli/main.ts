@@ -7,8 +7,9 @@ import { RunStore } from '../infrastructure/run-store.js';
 import { parseFile } from '../infrastructure/validation.js';
 import { handleV2 } from './v2.js';
 import { handleV3 } from './v3.js';
+import { handleV4 } from './v4.js';
 
-const help = `MegaBrain 0.3.0-alpha.1 — núcleo local; integrações reais não configuradas\n
+const help = `MegaBrain 0.4.0 — avaliação local-first; model grader desativado por padrão\n
 Uso após npm run build:
   npm start -- connector list --profile personal
   npm start -- connector add fake --profile personal --file connector.yaml
@@ -26,6 +27,12 @@ Uso após npm run build:
   npm start -- review <run-id>
   npm start -- eval <run-id> --file <evaluation.yaml>
   npm start -- trace <run-id>
+  npm start -- contract create --profile personal --file contract.yaml
+  npm start -- evidence build --profile personal --run RUN --contract CONTRACT --file evidence.yaml
+  npm start -- eval run --profile personal --run RUN
+  npm start -- diagnose run --profile personal --evaluation EVAL
+  npm start -- pattern scan --profile personal
+  npm start -- proposal list --profile personal
 
 Opções comuns: --state-dir <diretório-fora-do-git>, --json, --help.
 Engine único: --engine mock. Teach é o padrão, inclusive na retomada.
@@ -44,6 +51,7 @@ function display(cp: Checkpoint, json: boolean): void {
   console.log(`\n${cp.artifacts.result}`);
 }
 async function main(): Promise<void> {
+  if (await handleV4(process.argv.slice(2))) return;
   if (await handleV3(process.argv.slice(2))) return;
   if (await handleV2(process.argv.slice(2))) return;
   const { values, positionals } = parseArgs({ allowPositionals: true, strict: true,

@@ -1,0 +1,18 @@
+task_id: TASK-V4-SYNTHETIC
+profile_id: personal
+mode: teach
+goal: Avaliar uma entrega sintética contra requisitos congelados
+task_family: planning
+requirements:
+  - id: R1
+    statement: A verificação sintética deve passar
+    priority: mandatory
+    source_ref: fixture
+    proof:
+      method: test
+      grader_id: requirement.coverage
+non_goals:
+  - editar arquivos do harness
+hard_gates:
+  - policy.profile_isolation
+  - integrity.bundle
