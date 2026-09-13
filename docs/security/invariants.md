@@ -3,7 +3,7 @@
 | Regra | Enforcement na v0.2-alpha | Limite atual |
 |---|---|---|
 | Checkpoint é autoridade | Hash, schema estrito, identidade, encadeamento e `current` atômico | Checkpoints locais não são assinados |
-| Thread é opcional | Falha de resume cria restore capsule e fallback | Adapter Codex real ainda ausente |
+| Thread é opcional | Falha de resume cria restore capsule e fallback; `CodexEngine` usa App Server para Teach/read-only | A continuidade canônica permanece no checkpoint; o App Server não é sandbox adicional |
 | Plano antes de implementar | Etapa, ator humano, timestamp e hash atual | Aprovação CLI não é assinatura criptográfica |
 | WARM ativa exige humano | Candidato pendente separado e review com hash exato | Identidade do usuário é local |
 | Memória inativa não entra | Índice contém somente `active`; canônico é revalidado | Relógio local governa validade |
@@ -13,7 +13,7 @@
 | Conteúdo não concede autoridade | Itens são `data_not_instructions`; filtros ocorrem antes do ranking | Um modelo real ainda precisa de avaliação adversarial |
 | Segredo não persiste em WARM/HOT | Detector bloqueia padrões conhecidos; trace usa allowlist | Redação não detecta todo dado sensível possível |
 | Exclusão material | Remove item, revisões, candidatos relacionados e índice; mantém tombstone sem conteúdo | Backups externos não são administrados nesta alpha |
-| Memória Codex desligada | Schema/manifest exigem todos os flags falsos | Aplicação ao processo externo depende do futuro wrapper |
+| Memória Codex desligada | Schema/manifest exigem flags falsos; `CodexEngine` inicia App Server com as três overrides de memória e `--strict-config` | Configuração aceita pelo binário não prova que memória não exista em um host externo |
 | Hook Codex não persiste conteúdo | Sanitizador allowlist, IDs pseudonimizados e journal privado por profile | Hook cobre só caminhos locais e não substitui enforcement do runtime |
 | Sem regressão v0.1 | Os 31 testes originais continuam na suíte | Migração automática de estado não foi adicionada |
 | Connector pertence a um perfil | Registry e paths físicos validam `profile_id` | ACL contra atacante local continua externa |

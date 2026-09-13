@@ -39,6 +39,7 @@ Uso após npm run build:
   npm start -- codex hooks register --profile personal --repository REPO_ID --config-hash sha256:HASH
   npm start -- codex sessions list --profile personal --repository REPO_ID
   npm start -- codex evidence build --profile personal --contract CONTRACT --session SESSION --run RUN
+  npm start -- resume TASK_ID --profile personal --engine codex-app-server --workspace-root /repo
   npm start -- candidate request --profile personal --proposal PROP --repo <path> --paths src/** --mode supervised
   npm start -- candidate plan CANDIDATE --profile personal
   npm start -- candidate authorize CANDIDATE --profile personal --expires-in 2h

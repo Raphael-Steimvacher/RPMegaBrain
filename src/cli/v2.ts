@@ -6,6 +6,7 @@ import { FilesystemCheckpointStore } from '../adapters/filesystem/checkpoint-sto
 import { FilesystemWarmMemoryStore } from '../adapters/filesystem/warm-memory-store.js';
 import { FilesystemSourceRegistry } from '../adapters/filesystem/source-registry.js';
 import { ContinuityManager } from '../application/continuity/manager.js';
+import { CodexEngine } from '../adapters/codex-engine.js';
 import { ContextBundleStore, RetrievalPipeline } from '../application/context-building/retrieval.js';
 import { RunManifestV2Store } from '../adapters/filesystem/run-manifest-v2-store.js';
 import { DomainError } from '../domain/policy.js';
@@ -67,10 +68,18 @@ export async function handleV2(argv: string[]): Promise<boolean> {
   return false;
 }
 async function runResume(args: Args): Promise<true> {
-  allow(args, ['profile','state-dir','checkpoint','new-thread','accept-drift','no-recovery']); requirePositionals(args, 2);
+  allow(args, ['profile','state-dir','checkpoint','new-thread','accept-drift','no-recovery','engine','workspace-root','model','codex-bin']); requirePositionals(args, 2);
   const { checkpoints, events, manifests } = services(args);
   const checkpointId = option(args, 'checkpoint');
-  const result = await new ContinuityManager(checkpoints, events).resume(args.positionals[1]!, {
+  const engine = option(args, 'engine');
+  if (engine && engine !== 'codex-app-server') throw new DomainError('ENGINE_UNAVAILABLE', 'Use --engine codex-app-server ou omita o engine.');
+  const workspaceRoot = option(args, 'workspace-root');
+  if (engine && !workspaceRoot) throw new DomainError('CODEX_ENGINE_WORKSPACE_REQUIRED', 'Informe --workspace-root para o CodexEngine.');
+  const current = checkpointId ? checkpoints.load(args.positionals[1]!, checkpointId) : checkpoints.loadCurrent(args.positionals[1]!, true);
+  if (engine && current.engine.provider !== 'codex-app-server') throw new DomainError('ENGINE_MISMATCH', 'O checkpoint não foi criado para codex-app-server.');
+  const model = option(args, 'model'); const codexBin = option(args, 'codex-bin');
+  const threads = engine ? new CodexEngine({ workspace_root: workspaceRoot!, ...(model !== undefined ? { model } : {}), ...(codexBin !== undefined ? { codex_bin: codexBin } : {}) }) : undefined;
+  const result = await new ContinuityManager(checkpoints, events, threads).resume(args.positionals[1]!, {
     ...(checkpointId ? { checkpoint_id: checkpointId } : {}), new_thread: flag(args, 'new-thread'), accept_drift: flag(args, 'accept-drift'), persist_recovery: !flag(args, 'no-recovery'),
   });
   if (!result.confirmation_required) manifests.write(result.checkpoint, { resumed: true, strategy: result.strategy });
