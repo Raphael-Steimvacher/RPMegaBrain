@@ -14,6 +14,7 @@
 | Segredo não persiste em WARM/HOT | Detector bloqueia padrões conhecidos; trace usa allowlist | Redação não detecta todo dado sensível possível |
 | Exclusão material | Remove item, revisões, candidatos relacionados e índice; mantém tombstone sem conteúdo | Backups externos não são administrados nesta alpha |
 | Memória Codex desligada | Schema/manifest exigem todos os flags falsos | Aplicação ao processo externo depende do futuro wrapper |
+| Hook Codex não persiste conteúdo | Sanitizador allowlist, IDs pseudonimizados e journal privado por profile | Hook cobre só caminhos locais e não substitui enforcement do runtime |
 | Sem regressão v0.1 | Os 31 testes originais continuam na suíte | Migração automática de estado não foi adicionada |
 | Connector pertence a um perfil | Registry e paths físicos validam `profile_id` | ACL contra atacante local continua externa |
 | Conta, tenant e scopes conferem | Fingerprints e conjunto exato são verificados antes de `healthy` | Provider real ainda não conectado |

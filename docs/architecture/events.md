@@ -45,3 +45,15 @@ Hashes, revisões, reason codes, contagens e posições de ranking permitem expl
 Eventos de candidate são metadata-only e vinculados por `proposal_id`, `candidate_id`, `revision`, `snapshot_commit` e hashes dos artefatos. O pipeline registra, quando aplicável: `candidate.requested`, `candidate.intake_passed`, `candidate.intake_blocked`, `candidate.authorized`, `candidate.authorization_expired`, `candidate.base_resolved`, `candidate.base_drifted`, `candidate.worktree_allocated`, `candidate.worktree_locked`, `candidate.environment_preflight_completed`, `candidate.plan_frozen`, `candidate.build_started`, `candidate.file_changed`, `candidate.scope_checked`, `candidate.out_of_scope`, `candidate.regression_baseline_completed`, `candidate.regression_candidate_completed`, `candidate.snapshot_created`, `candidate.evaluation_completed`, `candidate.review_completed`, `candidate.impact_report_created`, `candidate.human_decision_recorded`, `candidate.cleanup_started`, `candidate.cleanup_completed` e `candidate.cleanup_incomplete`.
 
 Trace não contém diff, patch, conteúdo corporativo, prompt, transcript, raciocínio, segredo, valor de variável de ambiente ou erro bruto. A decisão aceita registra somente o vínculo hash-bound ao snapshot e ao report; não representa merge ou publicação.
+
+## Adapter de hooks do Codex
+
+O adapter opcional de hooks registra eventos de sessão e de ferramentas em journal
+privado por profile. Os eventos `SessionStart`, `PreToolUse`, `PermissionRequest`,
+`PostToolUse`, `Stop`, `Interrupt` e `SessionEnd` são normalizados com IDs
+pseudonimizados, sequência, timestamp, nome de ferramenta e reason code.
+
+O envelope recebido nunca é persistido: `transcript_path`, prompt, mensagem do
+assistente, `tool_input`, output, cwd absoluto, erro bruto e campos desconhecidos são
+descartados antes do journal. Hooks são telemetria observacional e não são enforcement
+de permissão. Ausência de `SessionEnd` produz Evidence Bundle parcial.

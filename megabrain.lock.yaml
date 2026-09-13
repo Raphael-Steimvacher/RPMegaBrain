@@ -117,6 +117,7 @@ components:
   src/adapters/mock.ts: sha256:29ec9bc308ff03a54c6b4e2dc017f3cabda307472e288eb8381ed6c14f15586c
   src/adapters/sqlite/warm-index.ts: sha256:6570b6329e6d8095e3cb39c72d5c6b154cc19466d201021c1e92cc0f4c76f68f
   src/application/candidates/service.ts: sha256:dcbfae7303605cbdaeb3f5b0a973292fec07948a03c2c479150a5fae2950e1e3
+  src/application/codex-hooks/evidence.ts: sha256:8d859ac72592a8ae52057dde7a1eead18d317076f0838e509d46cbd4d565f766
   src/application/context-building/retrieval.ts: sha256:fe1c5793a49e0e93276fcda9f0384b1b29afe960be848d9922b69d7f7209d118
   src/application/continuity/manager.ts: sha256:8cf07a1755565fad4116cf5484db7b9b9931bf29804900fb2e2f76014756527f
   src/application/evaluation/service.ts: sha256:d0725d173630e560293f58e53c7d1c23aebaa8558021c48c414ada42cea8192e
@@ -126,11 +127,13 @@ components:
   src/application/integrations/policy-gateway.ts: sha256:44edaa89f6c70818397aa2656d009559a4821ed217149148d3d6c27072b06a8a
   src/application/integrations/service.ts: sha256:416e18f94655b420fd0f654d74b466a9eefeeca7e9057dff23724f750da8a5d4
   src/application/workflow.ts: sha256:24baa4a3944d57ea65f46ff16fe1411483cd67e3cfc9b1073834e23d6ceddd7b
-  src/cli/main.ts: sha256:672a7fcf28f5d9fe6256dacef5d6b365f266a2ef1d9d7b21be59afc886c432d6
+  src/cli/codex-hooks.ts: sha256:0008e440f6ec82e3f72c4217d97a5a3518b36c18245a609b4a4749482f2373bb
+  src/cli/main.ts: sha256:cbbe0a8d67ca57f2cf1aa3d6800fc55e6a97dea8bff065d2e7673f33f4761374
   src/cli/v2.ts: sha256:a5610007541b8444ccf60a30802844d85d72e193e169707387209a8cb2ffcdb9
   src/cli/v3.ts: sha256:ca8561f2971da2afe91232bf31de3ea7868357d989a7663caf486f44ec7e808e
   src/cli/v4.ts: sha256:02db1b1d51e3614d648f76b1be38fe6cbdac8fce5b8592c5f6fe54da60eb9a7e
   src/cli/v5.ts: sha256:01771fb148fec593e0223640e185c7b74e444da0fbfae9c9534fc8d0e8a000b3
+  src/domain/codex-hooks.ts: sha256:7782119ddd169c8ba80874fd341fa9e3b935dc51d1411a1cab27dbd6e5410e42
   src/domain/contracts.ts: sha256:89ed77c02dcf7eed458f57168570cec43fd5d7bd495fb7435f47b0f413b66cf9
   src/domain/policy.ts: sha256:545b5570d6a776fbca5827fdea8b63f5fdd57e373457ec69a8957685fa6c716c
   src/domain/v2/checkpoint-store.ts: sha256:bb87a91755a23d4b6604e331e4d8416300d788b0038153763df6c2a44b31b95e
@@ -144,6 +147,7 @@ components:
   src/domain/v3/ports.ts: sha256:3b39168d7fbca6cd483b1db0dac43c61d7e5b9e9c93c264c3db79da3cba5d2bc
   src/domain/v4/contracts.ts: sha256:f6d741372026ef89e3f67e5eb1fce47831adc410902c3658dfd351a40faa40c6
   src/domain/v5/contracts.ts: sha256:2047de07941d53de4772699922ec7596a58af5d9bd6fc1b346550c7ea141b065
+  src/infrastructure/codex-hooks.ts: sha256:ef8319c386a046ddd77c1c135baff9cd747f421feec07337d8f67c2263ec4fd7
   src/infrastructure/hashing.ts: sha256:b98aac0ca3825852c064106f4f52e8f68df677a0c8d53bd0398f19644ef28d60
   src/infrastructure/integrity.ts: sha256:560fcf3d06e15a3754d0383bdd90f4678ef3422f429ab72fc87d15ce9137d2b0
   src/infrastructure/privacy.ts: sha256:b367db3774b0750f4c002ec6faa43c2c2f9b7d34e3bff9fe7357757f287842d9

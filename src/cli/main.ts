@@ -9,6 +9,7 @@ import { handleV2 } from './v2.js';
 import { handleV3 } from './v3.js';
 import { handleV4 } from './v4.js';
 import { handleV5 } from './v5.js';
+import { handleCodexHooks } from './codex-hooks.js';
 
 const help = `MegaBrain 0.5.0 — pipeline de candidates local-first; model grader desativado por padrão\n
 Uso após npm run build:
@@ -34,6 +35,10 @@ Uso após npm run build:
   npm start -- diagnose run --profile personal --evaluation EVAL
   npm start -- pattern scan --profile personal
   npm start -- proposal list --profile personal
+  npm start -- codex hooks render --profile personal --repository REPO_ID
+  npm start -- codex hooks register --profile personal --repository REPO_ID --config-hash sha256:HASH
+  npm start -- codex sessions list --profile personal --repository REPO_ID
+  npm start -- codex evidence build --profile personal --contract CONTRACT --session SESSION --run RUN
   npm start -- candidate request --profile personal --proposal PROP --repo <path> --paths src/** --mode supervised
   npm start -- candidate plan CANDIDATE --profile personal
   npm start -- candidate authorize CANDIDATE --profile personal --expires-in 2h
@@ -64,6 +69,7 @@ function display(cp: Checkpoint, json: boolean): void {
   console.log(`\n${cp.artifacts.result}`);
 }
 async function main(): Promise<void> {
+  if (await handleCodexHooks(process.argv.slice(2))) return;
   if (await handleV5(process.argv.slice(2))) return;
   if (await handleV4(process.argv.slice(2))) return;
   if (await handleV3(process.argv.slice(2))) return;
